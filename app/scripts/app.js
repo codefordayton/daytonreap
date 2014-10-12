@@ -9,4 +9,4 @@
  * Main module of the application.
  */
 angular
-  .module('daytonreapApp', []);
+  .module('daytonreapApp', ['leaflet-directive']);
