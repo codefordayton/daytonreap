@@ -13,46 +13,46 @@ angular.module('daytonreapApp')
       {
         lat: 39.75693,
         lng: -84.19460,
-        message: "Marker 1",
-        address: "123 Sesame St.",
-        parcelid: "R72123123",
+        message: 'Marker 1',
+        address: '123 Sesame St.',
+        parcelid: 'R72123123',
         focus: false 
       },
       {
         lat: 39.75895,
         lng: -84.1917,
-        message: "Marker 2",
-        address: "234 Sesame St.",
-        parcelid: "R72134234",
+        message: 'Marker 2',
+        address: '234 Sesame St.',
+        parcelid: 'R72134234',
         focus: false 
       },
       {
         lat: 39.76,
         lng: -84.1317,
-        message: "Marker 3",
-        address: "345 Sesame St.",
-        parcelid: "R72345345",
+        message: 'Marker 3',
+        address: '345 Sesame St.',
+        parcelid: 'R72345345',
         focus: false 
       },
       {
         lat: 39.77895,
         lng: -84.2917,
-        message: "Marker 4",
-        address: "456 Sesame St.",
-        parcelid: "R72456456",
+        message: 'Marker 4',
+        address: '456 Sesame St.',
+        parcelid: 'R72456456',
         focus: false 
       },
       {
         lat: 39.74895,
         lng: -84.3,
-        message: "Marker 5",
-        address: "567 Sesame St.",
-        parcelid: "R72567567",
+        message: 'Marker 5',
+        address: '567 Sesame St.',
+        parcelid: 'R72567567',
         focus: false 
       }
     ];
 
-    $scope.searchBox = "";
+    $scope.searchBox = '';
     $scope.markers = allMarkers;
 
     angular.extend($scope, {
@@ -79,7 +79,7 @@ angular.module('daytonreapApp')
     $scope.liveSearch = function(val) {
       $scope.selectedMarker = val;
       var newMarkers = [];
-      if (val.length > 3 && val.substring(0,3) === "R72") {
+      if (val.length > 3 && val.substring(0,3) === 'R72') {
         for (var i = 0; i < allMarkers.length; i++) {
           if (allMarkers[i].parcelid.indexOf(val) >= 0) {
             newMarkers.push(allMarkers[i]);
@@ -88,9 +88,9 @@ angular.module('daytonreapApp')
         $scope.markers = newMarkers;
       }
       else if (val.length > 0 && val !== 'R' && val !== 'R7') {
-        for (var i = 0; i < allMarkers.length; i++) {
-          if (allMarkers[i].address.indexOf(val) >= 0) {
-            newMarkers.push(allMarkers[i]);
+        for (var j = 0; j < allMarkers.length; j++) {
+          if (allMarkers[j].address.indexOf(val) >= 0) {
+            newMarkers.push(allMarkers[j]);
           }
         }
         $scope.markers = newMarkers;
