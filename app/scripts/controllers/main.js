@@ -8,49 +8,23 @@
  * Controller of the daytonreapApp
  */
 angular.module('daytonreapApp')
-  .controller('MainCtrl', function ($scope) {
-    var allMarkers = [
-      {
-        lat: 39.75693,
-        lng: -84.19460,
-        message: 'Marker 1',
-        address: '123 Sesame St.',
-        parcelid: 'R72123123',
-        focus: false 
-      },
-      {
-        lat: 39.75895,
-        lng: -84.1917,
-        message: 'Marker 2',
-        address: '234 Sesame St.',
-        parcelid: 'R72134234',
-        focus: false 
-      },
-      {
-        lat: 39.76,
-        lng: -84.1317,
-        message: 'Marker 3',
-        address: '345 Sesame St.',
-        parcelid: 'R72345345',
-        focus: false 
-      },
-      {
-        lat: 39.77895,
-        lng: -84.2917,
-        message: 'Marker 4',
-        address: '456 Sesame St.',
-        parcelid: 'R72456456',
-        focus: false 
-      },
-      {
-        lat: 39.74895,
-        lng: -84.3,
-        message: 'Marker 5',
-        address: '567 Sesame St.',
-        parcelid: 'R72567567',
-        focus: false 
+  .controller('MainCtrl', function ($scope, $http) {
+    var DATA_SOURCE = 'http://communities.socrata.com/resource/6sms-2scs?lien=FALSE&eligible=Eligible&$limit=20000';
+
+    var allMarkers = [];
+
+    $http.get(DATA_SOURCE).success(function(data) {
+      var length = data.length;
+      for (var i = 0; i < length; i++) {
+        allMarkers.push({ lat: parseFloat(data[i].locationdata.latitude),
+                          lng: parseFloat(data[i].locationdata.longitude),
+                          address: data[i].street,
+                          parcelid: data[i].parcelid,
+                          focus: false,
+                          layer: 'properties'
+                        });
       }
-    ];
+    });
 
     $scope.searchBox = '';
     $scope.markers = allMarkers;
@@ -67,6 +41,27 @@ angular.module('daytonreapApp')
           enable: ['click'],
           logic: 'emit'
         }
+      },
+      layers: {
+        baselayers: {
+          osm: {
+            name: 'OpenStreetMap',
+            type: 'xyz',
+            url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            layerOptions: {
+              subdomains: ['a', 'b', 'c'],
+              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              continuousWorld: true
+            }
+          }
+        },
+        overlays: {
+          properties: {
+            name: 'Properties',
+            type: 'markercluster',
+            visible: true
+          }
+        }
       }
     });
 
@@ -80,17 +75,17 @@ angular.module('daytonreapApp')
       $scope.selectedMarker = val;
       var newMarkers = [];
       if (val.length > 3 && val.substring(0,3) === 'R72') {
-        for (var i = 0; i < allMarkers.length; i++) {
-          if (allMarkers[i].parcelid.indexOf(val) >= 0) {
-            newMarkers.push(allMarkers[i]);
+        for (var i = 0; i < $scope.markers.length; i++) {
+          if ($scope.markers[i].parcelid && $scope.markers[i].parcelid.indexOf(val) >= 0) {
+            newMarkers.push($scope.markers[i]);
           }
         }
         $scope.markers = newMarkers;
       }
       else if (val.length > 0 && val !== 'R' && val !== 'R7') {
-        for (var j = 0; j < allMarkers.length; j++) {
-          if (allMarkers[j].address.indexOf(val) >= 0) {
-            newMarkers.push(allMarkers[j]);
+        for (var j = 0; j < $scope.markers.length; j++) {
+          if ($scope.markers[j].address && $scope.markers[j].address.indexOf(val) >= 0) {
+            newMarkers.push($scope.markers[j]);
           }
         }
         $scope.markers = newMarkers;
