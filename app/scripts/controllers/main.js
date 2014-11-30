@@ -9,8 +9,7 @@
  */
 angular.module('daytonreapApp')
   .controller('MainCtrl', function ($scope, $http) {
-    var DATA_SOURCE = 'http://communities.socrata.com/resource/6sms-2scs?lien=FALSE&eligible=Eligible&$limit=20000';
-
+    var DATA_SOURCE = 'http://communities.socrata.com/resource/ctx5-5k7y.json?paymentplan=FALSE&taxlieneligible=Yes&$limit=20000';
     var allMarkers = [];
 
     $http.get(DATA_SOURCE).success(function(data) {
