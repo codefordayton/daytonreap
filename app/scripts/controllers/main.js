@@ -9,7 +9,6 @@
  */
 angular.module('daytonreapApp')
   .controller('MainCtrl', function ($scope, $http, leafletEvents) {
-//    var DATA_SOURCE = 'http://communities.socrata.com/resource/ctx5-5k7y.json?paymentplan=FALSE&taxlieneligible=Yes&$limit=20000';
     var DATA_SOURCE = 'http://localhost:9000/reaps.json';
     var allMarkers = [];
 
@@ -18,13 +17,12 @@ angular.module('daytonreapApp')
       for (var i = 0; i < length; i++) {
         allMarkers.push({ lat: parseFloat(data[i].locationdata.latitude),
                           lng: parseFloat(data[i].locationdata.longitude),
-//                          address: data[i].street,
-//                          parcelid: data[i].parcelid,
-//                          focus: false,
+                          address: data[i].street,
+                          parcelid: data[i].parcelid,
+                          focus: false,
                           layer: 'properties'
                         });
       }
-      console.log('All done!', length);
     });
 
     $scope.searchBox = '';
@@ -40,8 +38,8 @@ angular.module('daytonreapApp')
       events: {
         markers: {
           disable: leafletEvents.getAvailableMarkerEvents(),
-//          enable: ['click'],
-//          logic: 'emit'
+          enable: ['click'],
+          logic: 'emit'
         },
         map: {
           disable: leafletEvents.getAvailableMapEvents()
@@ -54,9 +52,9 @@ angular.module('daytonreapApp')
             type: 'xyz',
             url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             layerOptions: {
-//              subdomains: ['a', 'b', 'c'],
-//              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-//              continuousWorld: true
+              subdomains: ['a', 'b', 'c'],
+              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              continuousWorld: true
             }
           }
         },
@@ -67,7 +65,7 @@ angular.module('daytonreapApp')
             visible: true,
             layerOptions: {
               "chunkedLoading": true,
-              "showCoverageOnHover": false,
+              "showCoverageOnHover": true,
               "removeOutsideVisibleBounds": true
             } 
           }
@@ -82,7 +80,6 @@ angular.module('daytonreapApp')
     });
 
     $scope.liveSearch = function(val) {
-      console.log('liveSearch');
       $scope.selectedMarker = val;
       var newMarkers = [];
       if (val.length > 3 && val.substring(0,3) === 'R72') {
