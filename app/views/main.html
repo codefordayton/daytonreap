@@ -1,5 +1,5 @@
 <input type="text" ng-model="searchBox" placeholder="Enter a Parcel ID or address" ng-change="liveSearch(searchBox)"></input>
-<leaflet center="dayton" markers="markers" layers="layers" event-broadcast="events" height="400" width="640"></leaflet>
+<leaflet center="dayton" watchMarkers="no" markers="markers" layers="layers" event-broadcast="events" height="400" width="640"></leaflet>
 <div> 
   <p>{{selectedMarker.address}}</p>
   <p>{{selectedMarker.parcelid}}</p>

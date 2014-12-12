@@ -1,0 +1,4 @@
+{
+  "name": "daytonreap",
+  "routes": { "**": "app/index.html" }
+}

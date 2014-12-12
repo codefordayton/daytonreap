@@ -8,8 +8,8 @@
  * Controller of the daytonreapApp
  */
 angular.module('daytonreapApp')
-  .controller('MainCtrl', function ($scope, $http) {
-    var DATA_SOURCE = 'http://communities.socrata.com/resource/ctx5-5k7y.json?paymentplan=FALSE&taxlieneligible=Yes&$limit=20000';
+  .controller('MainCtrl', function ($scope, $http, leafletEvents) {
+    var DATA_SOURCE = 'http://localhost:9000/reaps.json';
     var allMarkers = [];
 
     $http.get(DATA_SOURCE).success(function(data) {
@@ -37,8 +37,12 @@ angular.module('daytonreapApp')
       markers: $scope.markers,
       events: {
         markers: {
+          disable: leafletEvents.getAvailableMarkerEvents(),
           enable: ['click'],
           logic: 'emit'
+        },
+        map: {
+          disable: leafletEvents.getAvailableMapEvents()
         }
       },
       layers: {
@@ -58,7 +62,12 @@ angular.module('daytonreapApp')
           properties: {
             name: 'Properties',
             type: 'markercluster',
-            visible: true
+            visible: true,
+            layerOptions: {
+              "chunkedLoading": true,
+              "showCoverageOnHover": true,
+              "removeOutsideVisibleBounds": true
+            } 
           }
         }
       }
