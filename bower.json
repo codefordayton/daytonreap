@@ -6,6 +6,7 @@
     "es5-shim": "~3.1.0",
     "bootstrap-sass-official": "~3.2.0",
     "leaflet": "~0.7.3",
-    "leaflet.markercluster": "~0.4.0"
+    "leaflet.markercluster": "~0.4.0",
+    "jquery": "~1.11.1"
   }
 }

@@ -6,22 +6,69 @@
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style/main.css" />
   <link rel="stylesheet" href="style/screen.css" />
-
   <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/leaflet/dist/leaflet.js"></script>
   <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
   <script src="data/reaps.json"></script>
 </head>
 <body>
   <div class="container">
-    <div class="header"></div>
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="#">About</a></li>
+        <li class="active"><a href="#">Contact</a></li>
+      </ul>
+      <h3 class="text-muted">LotLinker</h3>
+    </div>
     <div>
       <div id="progress"><div id="progress-bar"></div></div>
       <div id="map"></div>
+      <input id="addressInput" type="text" style="width:600px;" placeholder="Enter Address or Parcel ID"></input>
+      <p id="selectedAddress"></p>
+      <p id="selectedParcelId"></p>
       <script type="text/javascript">
+        var markerList = [];
+        var allMarkers = [];
+        var markers = L.markerClusterGroup({ chunkedLoading: true, chunkProgress: updateProgressBar });
+
+        $('#addressInput').on("keyup", function(e) {
+          var val = $('#addressInput').val();
+          var refreshNeeded = false;
+          var newMarkers = [];
+          if (val.length > 3 && val.substring(0,3) === 'R72') {
+            for (var i = 0; i < allMarkers.length; i++) {
+              if (allMarkers[i].parcelid && allMarkers[i].parcelid.indexOf(val) >= 0) {
+                newMarkers.push(allMarkers[i]);
+              }
+            }
+            refreshNeeded = true;
+            markerList = newMarkers;
+          }
+          else if (val.length > 0 && val !== 'R' && val !== 'R7') {
+            for (var j = 0; j < allMarkers.length; j++) {
+              if (allMarkers[j].address && allMarkers[j].address.indexOf(val) >= 0) {
+                newMarkers.push(allMarkers[j]);
+              }
+            }
+            refreshNeeded = true;
+            markerList = newMarkers;
+          }
+          if (newMarkers.length === 0) {
+            markerList = allMarkers;
+          }
+
+          if (refreshNeeded) {
+            markers.clearLayers();
+            markers.addLayers(markerList);
+          }
+        });
+
         var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
           maxZoom: 18,
           attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
@@ -41,16 +88,23 @@
             progress.style.display = 'none';
           }
         }
-        var markers = L.markerClusterGroup({ chunkedLoading: true, chunkProgress: updateProgressBar });
-        var markerList = [];
-        //console.log('start creating markers: ' + window.performance.now());
+        markerList = [];
         for (var i = 0; i < points.length; i++) {
           var a = points[i];
           var title = a.parcelid;
           var marker = L.marker(L.latLng(parseFloat(a.locationdata.latitude), parseFloat(a.locationdata.longitude)), { title: title});
+          marker.address = a.street;
+          marker.parcelid = a.parcelid;
+      
+          marker.on('click', function(e) {
+            console.log(e);
+            $('#selectedAddress').text(e.target.address);
+            $('#selectedParcelId').text(e.target.parcelid);
+          });
           marker.bindPopup(title);
           markerList.push(marker);
         }
+        allMarkers = markerList;
         markers.addLayers(markerList);
         map.addLayer(markers);
       </script>
