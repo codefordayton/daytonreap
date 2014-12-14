@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dayton REAP</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="static/style/main.css" />
+  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <ul class="nav nav-pills pull-right">
+        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="#">About</a></li>
+        <li class="active"><a href="#">Contact</a></li>
+      </ul>
+      <h3 class="text-muted">LotLinker</h3>
+    </div>
+    <div>
+      <div id="progress"><div id="progress-bar"></div></div>
+      <div id="map"></div>
+      <input id="addressInput" type="text" style="width:600px;" placeholder="Enter Address or Parcel ID"></input>
+      <p id="selectedAddress"></p>
+      <p id="selectedParcelId"></p>
+    </div>
+    <div class="footer">
+      <p><span class="glyphicon glyphicon-heart"></span> from the Code for Dayton team</p>
+    </div>
+  </div>
+  <script src="bower_components/jquery/dist/jquery.js"></script>
+  <script src="bower_components/leaflet/dist/leaflet.js"></script>
+  <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+  <script src="static/data/reaps.json"></script>
+  <script src="static/js/main.js"></script>
+</body>
+</html>
