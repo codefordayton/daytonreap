@@ -1,6 +1,34 @@
 var markerList = [];
 var allMarkers = [];
-var markers = L.markerClusterGroup({ chunkedLoading: true, chunkProgress: updateProgressBar });
+var markerSearch = [];
+var markers = L.markerClusterGroup({
+    chunkedLoading: true,
+    chunkProgress: updateProgressBar
+});
+
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substrRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+
+    // regex used to determine if a string contains the substring `q`
+    substrRegex = new RegExp(q, 'i');
+
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        // the typeahead jQuery plugin expects suggestions to a
+        // JavaScript object, refer to typeahead docs for more info
+        matches.push({ value: str });
+      }
+    });
+
+    cb(matches);
+  };
+};
 
 $('#addressInput').on("keyup", function(e) {
   var val = $('#addressInput').val();
@@ -32,6 +60,28 @@ $('#addressInput').on("keyup", function(e) {
     markers.clearLayers();
     markers.addLayers(markerList);
   }
+});
+
+/* Highlight search box text on click */
+$("#addressInput").click(function () {
+  $(this).select();
+});
+
+/* Prevent hitting enter from refreshing the page */
+$("#addressInput").keypress(function (e) {
+  if (e.which == 13) {
+    e.preventDefault();
+  }
+});
+
+$("#addressInput").typeahead({
+  minLength: 3,
+  highlight: true,
+  hint: false
+}, {
+  name: "AllMarkers",
+  displayKey: "value",
+  source: substringMatcher(markerSearch)
 });
 
 var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -70,6 +120,16 @@ for (var i = 0; i < points.length; i++) {
   markerList.push(marker);
 }
 allMarkers = markerList;
+
+for (var i = 0; i < allMarkers.length; i++) {
+  if (allMarkers[i].parcelid) {
+    markerSearch.push(allMarkers[i].parcelid);
+  }
+  if (allMarkers[i].address) {
+    markerSearch.push(allMarkers[i].address);
+  }
+}
+
 markers.addLayers(markerList);
 map.addLayer(markers);
 
