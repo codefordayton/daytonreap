@@ -84,12 +84,18 @@ $("#addressInput").typeahead({
   source: substringMatcher(markerSearch)
 });
 
-var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+var satTiles = L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {
+  maxZoom: 18,
+  attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
+}),
+latlng = L.latLng(39.758948, -84.191607);
+var mapTiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   maxZoom: 18,
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
 }),
 latlng = L.latLng(39.758948, -84.191607);
-var map = L.map('map', { center: latlng, zoom: 10, layers: [tiles] });
+var map = L.map('map', { center: latlng, zoom: 10, layers: [mapTiles] });
+L.control.layers({"Map":mapTiles,"Satellite":satTiles}).addTo(map);
 var progress = document.getElementById('progress');
 var progressBar = document.getElementById('progress-bar');
 function updateProgressBar(processed, total, elapsed, layersArray) {
