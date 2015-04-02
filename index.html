@@ -2,35 +2,70 @@
 <html>
 <head>
   <title>Dayton REAP</title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+<!--  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" /> -->
   <link rel="stylesheet" href="static/style/main.css" />
   <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
   <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
   <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <ul class="nav nav-pills pull-right">
-        <li class="active"><a href="#">Home</a></li>
-        <li class="active"><a href="#">About</a></li>
-        <li class="active"><a href="#">Contact</a></li>
-      </ul>
-      <h3 class="text-muted">LotLinker</h3>
-    </div>
-    <div>
-      <div id="progress"><div id="progress-bar"></div></div>
-      <div id="map"></div>
-      <input class="typeahead" id="addressInput" type="text" style="width:600px;" placeholder="Enter Address or Parcel ID"></input>
-      <p id="selectedAddress"></p>
-      <p id="selectedParcelId"></p>
-    </div>
-    <div class="footer">
-      <p><span class="glyphicon glyphicon-heart"></span> from the Code for Dayton team</p>
-    </div>
-  </div>
+    <ul class="nav">
+      <li><a href="#">LotLinker</a></li>
+<!--      <li><a href="#">About</a></li>
+      <li><a href="#">Resources</a></li>-->
+      <li>BETA SOFTWARE. NOT FOR PRODUCTION USE.</li>
+    </ul>
+      <div class="mappanel">
+        <div id="progress"><div id="progress-bar"></div></div>
+        <div id="map" class="col-md-7 map"></div>
+      </div>
+      <div class="resultspanel">
+        <div class="contentpanel">
+          <div id="custom-templates">
+            <input class="typeahead" id="addressInput" type="text" placeholder="Enter Street Address or Parcel ID"></input>
+          </div>
+          <p class="result-text" id="selectedAddress"></p>
+          <p class="result-text" id="selectedParcelId"></p>
+          <hr />
+        </div>
+        <div id="intropanel" class="contentpanel">
+          <h1>What is Lot Links?</h1>
+          <p><strong>Lot Links</strong> is the City of Dayton program that uses a state of Ohio Real Estate Acquisition Process, commonly referred to as "REAP," to take title to tax delinquent abandoned properties in the City of Dayton, then selling those properties to qualified buyers.</p>
+          <p>The Lot Links program has three phases and may take up to two years to complete. There are many variables along the way that may derail the process, and there's no guarantee that an applicant will ultimately be able to claim the property they applied for. However, if they're successful, an applicant will be able to claim a lot within the Dayton city limits - with or without a building - for an average cost of only $2000!</p>
+          <strong>Phase One: Staking your claim</strong>
+          <ul>
+            <li>Find an eligible vacant property that you want.</li>
+            <li>Inquire if no one else is already pursuing.</li>
+            <li>Submit a Lot Links application for the property along with $500 deposit.</li>
+            <li>Wait for the City to approve your application.</li>
+            <li>If your application is accepted, then the City will request that Montgomery County initiate a tax foreclosure.</li>
+          </ul>
+          <p><strong>Phase Two: Waiting through the Tax Foreclosure</strong></p>
+          <p><strong>Phase Three: You pay your balance and get your land!</strong></p>
+        </div>
+        <div id="notfoundpanel" class="contentpanel" style="display: none;">
+          <h1>No Property Found</h1>
+          <p>No properties matching those search terms were found.</p>
+        </div>
+        <div id="foundpanel" class="contentpanel" style="display: none;">
+          <h1>Found a Property?</h1>
+          <p>After finding a property, there is a list of tasks that should be done:</p>
+          <ul>
+            <li>Familiarize yourself with the <a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx">rules</a> for REAPing a property.</li>
+            <li>Look at the map on the GIS application to determine if the parcel you are requesting covers the property.
+              <ul>
+                <li><a href="http://www.mcegisohio.org/geobladeweb/default.aspx">Montomery County Auditor GIS Application</a>(Requires Silverlight)
+                Things to look out for:</li><ul>
+                <li>Does the parcel cover the expected structures? House, garage, etc.?</li>
+                <li>Are the neighboring lots vacant, and owned by the same individual? If so, you can include them in the same request.</li></ul>
+              </ul>
+            </li>
+            <li>Visit the property to ensure that it is abandoned, taking a picture of the house for your application. It is the buyer's responsibility to ensure that a property is actually abandoned.</li>
+            <li>Fill out the application <a href="http://www.cityofdayton.org/departments/pcd/Documents/LtLnks/LLApplication.pdf">form</a>.</li>
+          </ul>
+        </div>
+      </div>
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/leaflet/dist/leaflet.js"></script>
   <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>

@@ -1,3 +1,5 @@
+$("#foundpanel").hide();
+$("#notfoundpanel").hide();
 var markerList = [];
 var allMarkers = [];
 var markerSearch = [];
@@ -34,8 +36,9 @@ $('#addressInput').on("keyup", function(e) {
   var val = $('#addressInput').val();
   var refreshNeeded = false;
   var newMarkers = [];
+  var allMarkerLength = allMarkers.length;
   if (val.length > 3 && val.substring(0,3) === 'R72') {
-    for (var i = 0; i < allMarkers.length; i++) {
+    for (var i = 0; i < allMarkerLength; i++) {
       if (allMarkers[i].parcelid && allMarkers[i].parcelid.indexOf(val) >= 0) {
         newMarkers.push(allMarkers[i]);
       }
@@ -43,8 +46,8 @@ $('#addressInput').on("keyup", function(e) {
     refreshNeeded = true;
     markerList = newMarkers;
   }
-  else if (val.length > 0 && val !== 'R' && val !== 'R7') {
-    for (var j = 0; j < allMarkers.length; j++) {
+  else if (val.length > 2 && val !== 'R' && val !== 'R7') {
+    for (var j = 0; j < allMarkerLength; j++) {
       if (allMarkers[j].address && allMarkers[j].address.indexOf(val) >= 0) {
         newMarkers.push(allMarkers[j]);
       }
@@ -52,8 +55,24 @@ $('#addressInput').on("keyup", function(e) {
     refreshNeeded = true;
     markerList = newMarkers;
   }
-  if (newMarkers.length === 0) {
+  if (newMarkers.length === 0 && val.length <= 2) {
     markerList = allMarkers;
+    $("#intropanel").show();
+    $("#foundpanel").hide();
+    $("#notfoundpanel").hide();
+  }
+  else if (newMarkers.length === 0) {
+    markerList = allMarkers;
+    $("#intropanel").hide();
+    $("#foundpanel").hide();
+    $("#notfoundpanel").show();
+  }
+  else if (newMarkers.length === 1) {
+    $('#selectedAddress').text(newMarkers[0].address);
+    $('#selectedParcelId').text(newMarkers[0].parcelid);
+    $("#intropanel").hide();
+    $("#notfoundpanel").hide();
+    $("#foundpanel").show();
   }
 
   if (refreshNeeded) {
@@ -81,15 +100,21 @@ $("#addressInput").typeahead({
 }, {
   name: "AllMarkers",
   displayKey: "value",
-  source: substringMatcher(markerSearch)
+  source: substringMatcher(markerSearch),
+  templates: {
+    empty: [
+      '<div class="empty-message">',
+      'unable to find any properties that match the current query',
+      '</div>'
+    ].join('\n')
+  }
 });
 
 var satTiles = L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {
   maxZoom: 18,
   attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
 }),
-latlng = L.latLng(39.758948, -84.191607);
-var mapTiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  mapTiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
   maxZoom: 18,
   attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors, Points &copy 2012 LINZ'
 }),
@@ -112,7 +137,7 @@ function updateProgressBar(processed, total, elapsed, layersArray) {
 markerList = [];
 for (var i = 0; i < points.length; i++) {
   var a = points[i];
-  var title = a.parcelid;
+  var title = a.street;
   var marker = L.marker(L.latLng(parseFloat(a.locationdata.latitude), parseFloat(a.locationdata.longitude)), { title: title});
   marker.address = a.street;
   marker.parcelid = a.parcelid;
@@ -121,6 +146,7 @@ for (var i = 0; i < points.length; i++) {
     console.log(e);
     $('#selectedAddress').text(e.target.address);
     $('#selectedParcelId').text(e.target.parcelid);
+    $('#viewprocessbutton').show();
   });
   marker.bindPopup(title);
   markerList.push(marker);
