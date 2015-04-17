@@ -134,6 +134,9 @@ function updateProgressBar(processed, total, elapsed, layersArray) {
     progress.style.display = 'none';
   }
 }
+
+$('#last_update').text(lastupdated);
+
 markerList = [];
 for (var i = 0; i < points.length; i++) {
   var a = points[i];
@@ -146,7 +149,9 @@ for (var i = 0; i < points.length; i++) {
     console.log(e);
     $('#selectedAddress').text(e.target.address);
     $('#selectedParcelId').text(e.target.parcelid);
-    $('#viewprocessbutton').show();
+    $("#intropanel").hide();
+    $("#notfoundpanel").hide();
+    $("#foundpanel").show();
   });
   marker.bindPopup(title);
   markerList.push(marker);
