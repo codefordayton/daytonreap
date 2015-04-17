@@ -11,7 +11,7 @@
 </head>
 <body>
     <ul class="nav">
-      <li><a href="#">LotLinker</a></li>
+      <li><a class="header" href="#">LotLinker</a></li>
 <!--      <li><a href="#">About</a></li>
       <li><a href="#">Resources</a></li>-->
       <li>BETA SOFTWARE. NOT FOR PRODUCTION USE.</li>
@@ -21,7 +21,7 @@
         <div id="map" class="col-md-7 map"></div>
       </div>
       <div class="resultspanel">
-        <div class="contentpanel">
+        <div class="contentpanel searchpanel">
           <div id="custom-templates">
             <input class="typeahead" id="addressInput" type="text" placeholder="Enter Street Address or Parcel ID"></input>
           </div>
@@ -30,40 +30,50 @@
           <hr />
         </div>
         <div id="intropanel" class="contentpanel">
-          <h1>What is Lot Links?</h1>
-          <p><strong>Lot Links</strong> is the City of Dayton program that uses a state provision for Real Estate Acquisition Process, commonly referred to as "REAP," to take title to tax delinquent abandoned properties in the City of Dayton. The City can then sell those properties to qualified buyers.</p>
-          <p>The Lot Links program has three phases and typically takes about two years to complete. There are many variables along the way that may derail the process, and there's no guarantee that an applicant will ultimately be able to claim the property they apply for. However, if they're successful, an applicant will be able to claim a lot within the Dayton city limits - with or without a building - for an average cost of only $2000!</p>
-          <strong>Phase One: Staking your claim</strong>
+          <h1>Lot Linker Search Tool</h1>
+          <p><a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx" target="_blank">Lot Links</a> is the City of Dayton program that uses a state provision for Real Estate Acquisition Process, commonly referred to as "REAP," to take title to tax delinquent abandoned properties in the City of Dayton. The City can then sell those properties to qualified buyers.</p>
+          <p>This tool streamlines your search by only showing those properties that meet the first four eligibility criteria for the Lot Links program:</p>
+          <strong>The property:</strong>
           <ul>
-            <li>Find an eligible vacant property that you want.</li>
-            <li>Inquire if no one else is already pursuing.</li>
-            <li>Submit a Lot Links application for the property along with $500 deposit.</li>
-            <li>Wait for the City to approve your application.</li>
-            <li>If your application is accepted, then the City will request that Montgomery County initiate a tax foreclosure.</li>
+            <li>is in the City of Dayton.</li>
+            <li>is at least 2 years in arrears on taxes.</li>
+            <li>has not had their tax lien sold.</li>
+            <li>is not on a delinquent tax payment plan.</li>
           </ul>
-          <p><strong>Phase Two: Waiting through the Tax Foreclosure</strong></p>
-          <p><strong>Phase Three: You pay your balance and get your land!</strong></p>
+          <p>You can search by address, parcel number, or by visual inspection of the map.</p>
+          <p>To view the address and parcel number of a location on the map, double click on the blue balloon icon. <img class="small-balloon" src="/bower_components/leaflet/dist/images/marker-icon.png"></p>
+<hr />
+          <p>If the property does not show up in this search tool, then it is not Lot Links eligible at this time.</p>
+<hr />
+          <p>Jot down the address AND parcel number of each property that interests you - you will need this info to continue the eligibility determination process.</p>
+          <p><i>The data for this tool comes directly from the Montgomery County Treasurers Office database, which is updated at the end of every month. It was last updated on <span id="last_update"></span>.</i></p>
         </div>
         <div id="notfoundpanel" class="contentpanel" style="display: none;">
           <h1>No Property Found</h1>
-          <p>No properties matching those search terms were found.</p>
+          <p>No properties were found that match those search terms.</p>
         </div>
         <div id="foundpanel" class="contentpanel" style="display: none;">
           <h1>Found a Property?</h1>
           <p>After finding a property, there is a list of tasks that should be done:</p>
           <ul>
-            <li>Familiarize yourself with the <a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx">rules</a> for REAPing a property.</li>
+            <li>Familiarize yourself with the <a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx" target="_blank">rules</a> for REAPing a property.</li>
             <li>Look at the map on the GIS application to determine if the parcel you are requesting covers the property.
               <ul>
-                <li><a href="http://www.mcegisohio.org/geobladeweb/default.aspx">Montomery County Auditor GIS Application</a>(Requires Silverlight)
+                <li><a href="http://www.mcegisohio.org/geobladeweb/default.aspx" target="_blank">Montomery County Auditor GIS Application</a> (Requires Silverlight).
                 Things to look out for:</li><ul>
                 <li>Does the parcel cover the expected structures? House, garage, etc.?</li>
                 <li>Are the neighboring lots vacant, and owned by the same individual? If so, you can include them in the same request.</li></ul>
               </ul>
             </li>
             <li>Visit the property to ensure that it is abandoned, taking a picture of the house for your application. It is the buyer's responsibility to ensure that a property is actually abandoned.</li>
-            <li>Fill out the application <a href="http://www.cityofdayton.org/departments/pcd/Documents/LtLnks/LLApplication.pdf">form</a>.</li>
+            <li>Email <a href="mailto:lotlinks@daytonohio.gov">lotlinks@daytonohio.gov</a> with the parcel number and address to ensure that no one else has already applied for the property you want.</li>
+            <li>Fill out the application <a href="http://www.cityofdayton.org/departments/pcd/Documents/LtLnks/LLApplication.pdf" target="_blank">form</a>.</li>
           </ul>
+        </div>
+        <div class="contentpanel footerpanel">
+          <p class="footertext">Made with pride by</p>
+          <a href="http://codefordayton.org"><img class="logo firstlogo" src="static/images/logo.png" /></a>
+          <a href="http://codeforamerica.org"><img class="logo" src="static/images/cfa_logo_reverse_lg.png" /></a>
         </div>
       </div>
   <script src="bower_components/jquery/dist/jquery.js"></script>
