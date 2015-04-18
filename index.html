@@ -32,9 +32,9 @@
         <div id="intropanel" class="contentpanel">
           <h1>Lot Linker Search Tool</h1>
           <p><a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx" target="_blank">Lot Links</a> is the City of Dayton program that uses a state provision for Real Estate Acquisition Process, commonly referred to as "REAP," to take title to tax delinquent abandoned properties in the City of Dayton. The City can then sell those properties to qualified buyers.</p>
-          <p>This tool streamlines your search by only showing those properties that meet the first four eligibility criteria for the Lot Links program:</p>
+          <p>This tool streamlines your search by only showing those properties that meet the first four eligibility criteria for the Lot Links program.</p>
           <strong>The property:</strong>
-          <ul>
+          <ul class="scrunched">
             <li>is in the City of Dayton.</li>
             <li>is at least 2 years in arrears on taxes.</li>
             <li>has not had their tax lien sold.</li>
@@ -42,23 +42,17 @@
           </ul>
           <p>You can search by address, parcel number, or by visual inspection of the map.</p>
           <p>To view the address and parcel number of a location on the map, double click on the blue balloon icon. <img class="small-balloon" src="/bower_components/leaflet/dist/images/marker-icon.png"></p>
-<hr />
-          <p>If the property does not show up in this search tool, then it is not Lot Links eligible at this time.</p>
-<hr />
+          <strong>If the property does not show up in this search tool, then it is not Lot Links eligible at this time.</strong>
           <p>Jot down the address AND parcel number of each property that interests you - you will need this info to continue the eligibility determination process.</p>
-          <p><i>The data for this tool comes directly from the Montgomery County Treasurers Office database, which is updated at the end of every month. It was last updated on <span id="last_update"></span>.</i></p>
-        </div>
-        <div id="notfoundpanel" class="contentpanel" style="display: none;">
-          <h1>No Property Found</h1>
-          <p>No properties were found that match those search terms.</p>
+          <p class="fineprint"><i>The data for this tool comes directly from the Montgomery County Treasurers Office database, which is updated at the end of every month. The county's data was last queried for LotLinker on <span id="last_update"></span>.</i></p>
         </div>
         <div id="foundpanel" class="contentpanel" style="display: none;">
           <h1>Found a Property?</h1>
-          <p>After finding a property, there is a list of tasks that should be done:</p>
-          <ul>
+          <p class="scrunched-bottom">After finding a property, there is a list of tasks that should be done:</p>
+          <ul class="scrunched">
             <li>Familiarize yourself with the <a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx" target="_blank">rules</a> for REAPing a property.</li>
             <li>Look at the map on the GIS application to determine if the parcel you are requesting covers the property.
-              <ul>
+              <ul class="scrunched">
                 <li><a href="http://www.mcegisohio.org/geobladeweb/default.aspx" target="_blank">Montomery County Auditor GIS Application</a> (Requires Silverlight).
                 Things to look out for:</li><ul>
                 <li>Does the parcel cover the expected structures? House, garage, etc.?</li>
