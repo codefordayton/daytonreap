@@ -1,5 +1,4 @@
 $("#foundpanel").hide();
-$("#notfoundpanel").hide();
 var markerList = [];
 var allMarkers = [];
 var markerSearch = [];
@@ -32,7 +31,7 @@ var substringMatcher = function(strs) {
   };
 };
 
-$('#addressInput').on("keyup", function(e) {
+var lookupValue = function(value) {
   var val = $('#addressInput').val();
   var refreshNeeded = false;
   var newMarkers = [];
@@ -55,23 +54,15 @@ $('#addressInput').on("keyup", function(e) {
     refreshNeeded = true;
     markerList = newMarkers;
   }
-  if (newMarkers.length === 0 && val.length <= 2) {
+  if (newMarkers.length === 0) {
     markerList = allMarkers;
     $("#intropanel").show();
     $("#foundpanel").hide();
-    $("#notfoundpanel").hide();
-  }
-  else if (newMarkers.length === 0) {
-    markerList = allMarkers;
-    $("#intropanel").hide();
-    $("#foundpanel").hide();
-    $("#notfoundpanel").show();
   }
   else if (newMarkers.length === 1) {
     $('#selectedAddress').text(newMarkers[0].address);
     $('#selectedParcelId').text(newMarkers[0].parcelid);
     $("#intropanel").hide();
-    $("#notfoundpanel").hide();
     $("#foundpanel").show();
   }
 
@@ -79,6 +70,10 @@ $('#addressInput').on("keyup", function(e) {
     markers.clearLayers();
     markers.addLayers(markerList);
   }
+};
+
+$('#addressInput').on("keyup", function(e) {
+  lookupValue($('#addressInput').val());
 });
 
 /* Highlight search box text on click */
@@ -93,6 +88,10 @@ $("#addressInput").keypress(function (e) {
   }
 });
 
+$("#addressInput").on('typeahead:selected', function(evt, item) {
+  lookupValue(item.value);
+});
+
 $("#addressInput").typeahead({
   minLength: 3,
   highlight: true,
@@ -102,11 +101,7 @@ $("#addressInput").typeahead({
   displayKey: "value",
   source: substringMatcher(markerSearch),
   templates: {
-    empty: [
-      '<div class="empty-message">',
-      'unable to find any properties that match the current query',
-      '</div>'
-    ].join('\n')
+    empty: '<div class="empty-message">No properties were found that match the current query.</div>'
   }
 });
 
@@ -146,11 +141,9 @@ for (var i = 0; i < points.length; i++) {
   marker.parcelid = a.parcelid;
 
   marker.on('click', function(e) {
-    console.log(e);
     $('#selectedAddress').text(e.target.address);
     $('#selectedParcelId').text(e.target.parcelid);
     $("#intropanel").hide();
-    $("#notfoundpanel").hide();
     $("#foundpanel").show();
   });
   marker.bindPopup(title);

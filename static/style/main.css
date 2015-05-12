@@ -77,8 +77,21 @@ p.footertext {
   margin-top:0;
   color:#fff;
 }
+
+p.fineprint {
+  font-size:11px;
+}
+
 a.header {
   text-decoration: none;
+}
+
+ul.scrunched {
+  margin-top:4px;
+}
+
+p.scrunched-bottom {
+  margin-bottom:4px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -201,7 +214,7 @@ div.results {
 .typeahead,
 .tt-query,
 .tt-hint {
-  width: 396px;
+  width: 360px;
   height: 30px;
   padding: 8px 12px;
   font-size: 20px;
