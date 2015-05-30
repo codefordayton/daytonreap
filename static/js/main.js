@@ -10,70 +10,96 @@ var markers = L.markerClusterGroup({
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substrRegex;
-
+    var newMarkers = [];
     // an array that will be populated with substring matches
     matches = [];
 
     // regex used to determine if a string contains the substring `q`
+    strings = q.split(' ');
+    if (strings.length > 1) {
+      q = strings.join('.*');
+    }
+    else if (q.length > 3 && (q.substring(0,3) === 'R72' || q.substring(0,3) === 'r72')) {
+      if (q.length > 8) {
+        q = 'R72\\s'+ q.substring(3,8) + '\\s' + q.substring(8,12);
+      }
+      else {
+        q = 'R72\\s' + q.substring(3);
+      }
+    }
     substrRegex = new RegExp(q, 'i');
 
     // iterate through the pool of strings and for any string that
     // contains the substring `q`, add it to the `matches` array
-    $.each(strs, function(i, str) {
-      if (substrRegex.test(str)) {
-        // the typeahead jQuery plugin expects suggestions to a
-        // JavaScript object, refer to typeahead docs for more info
-        matches.push({ value: str });
-      }
-    });
+    if (q === 'R72' || q === 'r72' || q === 'R72 ' || q === 'r72 ') {
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str.val)) {
+          matches.push({ value: str.val });
+        }
+      });
+      newMarkers = [];
+    } else {
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str.val)) {
+          // the typeahead jQuery plugin expects suggestions to a
+          // JavaScript object, refer to typeahead docs for more info
+          matches.push({ value: str.val });
+          newMarkers.push(allMarkers[str.id]);
+        }
+      });
+    }
+
+    markerList = newMarkers;
+    if (newMarkers.length === 0) {
+      markerList = allMarkers;
+      $("#intropanel").show();
+      $("#foundpanel").hide();
+    }
+    else if (newMarkers.length === 1) {
+      $('#selectedAddress').text(newMarkers[0].address);
+      $('#selectedParcelId').text(newMarkers[0].parcelid);
+      $("#intropanel").hide();
+      $("#foundpanel").show();
+    }
+
+    markers.clearLayers();
+    markers.addLayers(markerList);
 
     cb(matches);
   };
 };
 
 var lookupValue = function(value) {
-  var val = $('#addressInput').val();
-  var refreshNeeded = false;
-  var newMarkers = [];
-  var allMarkerLength = allMarkers.length;
-  if (val.length > 3 && val.substring(0,3) === 'R72') {
-    for (var i = 0; i < allMarkerLength; i++) {
-      if (allMarkers[i].parcelid && allMarkers[i].parcelid.indexOf(val) >= 0) {
-        newMarkers.push(allMarkers[i]);
-      }
+  var loneMarker;
+  for (var i = 0; i < allMarkers.length; i++) {
+    if (allMarkers[i].address === value || allMarkers[i].parcelid === value) {
+      loneMarker = allMarkers[i];
+      markerList = [];
+      markerList.push(loneMarker);
+      markers.clearLayers();
+      markers.addLayers(markerList);
+      $('#selectedAddress').text(loneMarker.address);
+      $('#selectedParcelId').text(loneMarker.parcelid);
+      $("#intropanel").hide();
+      $("#foundpanel").show();
+      break;
     }
-    refreshNeeded = true;
-    markerList = newMarkers;
   }
-  else if (val.length > 2 && val !== 'R' && val !== 'R7') {
-    for (var j = 0; j < allMarkerLength; j++) {
-      if (allMarkers[j].address && allMarkers[j].address.indexOf(val) >= 0) {
-        newMarkers.push(allMarkers[j]);
-      }
-    }
-    refreshNeeded = true;
-    markerList = newMarkers;
-  }
-  if (newMarkers.length === 0) {
-    markerList = allMarkers;
-    $("#intropanel").show();
-    $("#foundpanel").hide();
-  }
-  else if (newMarkers.length === 1) {
-    $('#selectedAddress').text(newMarkers[0].address);
-    $('#selectedParcelId').text(newMarkers[0].parcelid);
-    $("#intropanel").hide();
-    $("#foundpanel").show();
-  }
+}
 
-  if (refreshNeeded) {
+var shortInput = function(value) {
+  var val = $('#addressInput').val();
+  if (val.length < 3 && markerList.length !== allMarkers.length) {
+    markerList = allMarkers;
     markers.clearLayers();
     markers.addLayers(markerList);
+    $("#foundpanel").hide();
+    $("#intropanel").show();
   }
 };
 
 $('#addressInput').on("keyup", function(e) {
-  lookupValue($('#addressInput').val());
+  shortInput($('#addressInput').val());
 });
 
 /* Highlight search box text on click */
@@ -89,6 +115,10 @@ $("#addressInput").keypress(function (e) {
 });
 
 $("#addressInput").on('typeahead:selected', function(evt, item) {
+  lookupValue(item.value);
+});
+
+$("#addressInput").on('typeahead:cursorchanged', function(evt, item) {
   lookupValue(item.value);
 });
 
@@ -153,10 +183,10 @@ allMarkers = markerList;
 
 for (var i = 0; i < allMarkers.length; i++) {
   if (allMarkers[i].parcelid) {
-    markerSearch.push(allMarkers[i].parcelid);
+    markerSearch.push({id: i, val: allMarkers[i].parcelid});
   }
   if (allMarkers[i].address) {
-    markerSearch.push(allMarkers[i].address);
+    markerSearch.push({id: i, val: allMarkers[i].address});
   }
 }
 
