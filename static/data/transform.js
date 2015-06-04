@@ -27,7 +27,7 @@ var get=function(prop,obj){
  
 var location_data=get.curry('locationdata');
 var longitude=get.curry('longitude');
-var latitude=get.curry('longitude');
+var latitude=get.curry('latitude');
 var street=get.curry('street');
 var parcelid=get.curry('parcelid');
 
@@ -51,7 +51,7 @@ stdin.on('data', function(chunk) {
 
 stdin.on('end', function() {
   var input_array=JSON.parse(data)
-  var array=array.map(input_array);		
+  var array=input_array.map(transform);		
   
   process.stdout.write(JSON.stringify(array));
 });
