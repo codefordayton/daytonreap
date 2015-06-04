@@ -136,7 +136,7 @@ markerList = [];
 for (var i = 0; i < points.length; i++) {
   var a = points[i];
   var title = a.street;
-  var marker = L.marker(L.latLng(parseFloat(a.locationdata.latitude), parseFloat(a.locationdata.longitude)), { title: title});
+  var marker = L.marker(L.latLng(parseFloat(a.latitude), parseFloat(a.longitude)), { title: title});
   marker.address = a.street;
   marker.parcelid = a.parcelid;
 
