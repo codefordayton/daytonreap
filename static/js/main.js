@@ -143,8 +143,11 @@ for (var i = 0; i < points.length; i++) {
   marker.on('click', function(e) {
     $('#selectedAddress').text(e.target.address);
     $('#selectedParcelId').text(e.target.parcelid);
-    var linkString = "http://www.mctreas.org/master.cfm?parid=" + e.target.parcelid.replace(" ", "%20") + "&taxyr=2015&own1=SMITH";
+    var parcelidlink = e.target.parcelid.replace(" ", "%20");
+    var linkString = "http://www.mctreas.org/master.cfm?parid=" + parcelidlink + "&taxyr=2015&own1=SMITH";
+    var gisLinkString = "http://www.mcegisohio.org/geobladeweb/default.aspx?config=aud&field='" + parcelidlink + "'";
     $('#linkToTreasuresSite').html("<a href=\"" + linkString + "\" target=\"_blank\">View Property on Treasurer's Site</a>");
+    $('#linkToGISSite').html("<a href=\"" + gisLinkString + "\" target=\"_blank\">View Property on GIS Site</a>");
     $("#intropanel").hide();
     $("#foundpanel").show();
   });
