@@ -143,6 +143,8 @@ for (var i = 0; i < points.length; i++) {
   marker.on('click', function(e) {
     $('#selectedAddress').text(e.target.address);
     $('#selectedParcelId').text(e.target.parcelid);
+    var linkString = "http://www.mctreas.org/master.cfm?parid=" + e.target.parcelid.replace(" ", "%20") + "&taxyr=2015&own1=SMITH";
+    $('#linkToTreasuresSite').html("<a href=\"" + linkString + "\" target=\"_blank\">View Property on Treasurer's Site</a>");
     $("#intropanel").hide();
     $("#foundpanel").show();
   });
