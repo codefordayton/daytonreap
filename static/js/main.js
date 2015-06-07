@@ -7,6 +7,14 @@ var markers = L.markerClusterGroup({
     chunkProgress: updateProgressBar
 });
 
+function generateTreasurersLink(parcelid){
+  return "http://www.mctreas.org/master.cfm?parid=" + parcelid.replace(" ", "%20") + "&taxyr=2015&own1=SMITH";
+}
+
+function generateGISLink(parcelid){
+  return "http://www.mcegisohio.org/geobladeweb/default.aspx?config=aud&field='" + parcelid + "'";
+}
+
 var substringMatcher = function(strs) {
   return function findMatches(q, cb) {
     var matches, substrRegex;
@@ -62,6 +70,12 @@ var lookupValue = function(value) {
   else if (newMarkers.length === 1) {
     $('#selectedAddress').text(newMarkers[0].address);
     $('#selectedParcelId').text(newMarkers[0].parcelid);
+    $('#linkToTreasuresSite').html("<a href=\"" 
+      + generateTreasurersLink(newMarkers[0].parcelid) 
+      + "\" target=\"_blank\">View Property on Treasurer's Site</a>");
+    $('#linkToGISSite').html("<a href=\"" 
+      + generateGISLink(newMarkers[0].parcelid) 
+      + "\" target=\"_blank\">View Property on GIS Site</a>");
     $("#intropanel").hide();
     $("#foundpanel").show();
   }
@@ -143,11 +157,12 @@ for (var i = 0; i < points.length; i++) {
   marker.on('click', function(e) {
     $('#selectedAddress').text(e.target.address);
     $('#selectedParcelId').text(e.target.parcelid);
-    var parcelidlink = e.target.parcelid.replace(" ", "%20");
-    var linkString = "http://www.mctreas.org/master.cfm?parid=" + parcelidlink + "&taxyr=2015&own1=SMITH";
-    var gisLinkString = "http://www.mcegisohio.org/geobladeweb/default.aspx?config=aud&field='" + parcelidlink + "'";
-    $('#linkToTreasuresSite').html("<a href=\"" + linkString + "\" target=\"_blank\">View Property on Treasurer's Site</a>");
-    $('#linkToGISSite').html("<a href=\"" + gisLinkString + "\" target=\"_blank\">View Property on GIS Site</a>");
+    $('#linkToTreasuresSite').html("<a href=\"" 
+      + generateTreasurersLink(e.target.parcelid) 
+      + "\" target=\"_blank\">View Property on Treasurer's Site</a>");
+    $('#linkToGISSite').html("<a href=\"" 
+      + generateGISLink(e.target.parcelid) 
+      + "\" target=\"_blank\">View Property on GIS Site</a>");
     $("#intropanel").hide();
     $("#foundpanel").show();
   });
