@@ -1,146 +1,152 @@
 .container-fluid {
-    background-color:white;
+  background-color: white;
 }
-
 .mappanel {
-  width: 60%;
-  height: 95%;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  height: 65VH;
   display: inline-block;
   position: relative;
 }
-
 .resultspanel {
-  width: 40%;
+  float: left;
+  width: 100%;
   height: 95%;
   float: right;
-  overflow-y: scroll;
   padding-top: 3px;
 }
-
+.intropanel {
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
 .contentpanel {
-  padding-left:10px;
-  padding-right:10px;
+  width: 100%;
 }
-
 .searchpanel {
-  padding-top:10px;
+  padding-top: 10px;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
-
+#custom-templates {
+  width: 100%;
+}
+.twitter-typeahead {
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  vertical-align: middle;
+}
 .footerpanel {
-  background-color:#666;
+  background-color: #666;
   padding-top: 1em;
   padding-bottom: 1em;
   text-align: center;
+  width: 100%;
 }
-
 .map {
-    height:100%;
-    width:100%;
-    border: 1px solid #ccc;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #ccc;
+  margin-left: -2px;
 }
-
 .results {
-    background-color:0x000;
+  background-color: 0x000;
 }
-
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
 }
-
-html, body {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+html,
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   height: 100%;
-  margin:0px;
+  max-width: 100%;
+  margin: 0px;
 }
-
 img.small-balloon {
   width: 10px;
 }
-
 img.logo {
   width: 100px;
   display: inline-block;
   margin-left: auto;
   margin-right: auto;
 }
-
 img.firstlogo {
   padding-right: 1em;
 }
-
 p.footertext {
-  font-size:10px;
-  padding-top:0;
-  margin-top:0;
-  color:#fff;
+  font-size: 10px;
+  padding-top: 0;
+  margin-top: 0;
+  color: #fff;
 }
-
 p.fineprint {
-  font-size:11px;
+  font-size: 11px;
 }
-
 a.header {
   text-decoration: none;
 }
-
 ul.scrunched {
-  margin-top:4px;
+  margin-top: 4px;
 }
-
 p.scrunched-bottom {
-  margin-bottom:4px;
+  margin-bottom: 4px;
 }
-
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
   /* Make the masthead heading the same height as the navigation */
 }
-
 .nav {
-  margin:0;
-  height:5%;
-  background-color:yellow;
+  margin: 0;
+  height: 4rem;
+  max-width: 100%;
+  background-color: yellow;
   border-bottom: 1px solid #e5e5e5;
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  padding: 0;
 }
-
 .nav li {
-  position:relative;
-  list-style:none;
-  display:inline-block;
-  margin-left:1em;
-  margin-right:1em;
-  padding-top:5px;
+  position: relative;
+  list-style: none;
+  display: inline-block;
 }
-
 .nav ul {
-  float:right;
-  margin-top:0em;
-  padding-top:0em;
+  float: left;
+  margin-top: 0em;
+  padding-top: 0em;
 }
-
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
-
 .container-narrow > hr {
   margin: 30px 0;
 }
-
 /* Main marketing message and sign up button */
 .jumbotron {
   text-align: center;
@@ -150,7 +156,6 @@ p.scrunched-bottom {
   font-size: 21px;
   padding: 14px 24px;
 }
-
 /* Supporting marketing content */
 .marketing {
   margin: 40px 0;
@@ -158,13 +163,101 @@ p.scrunched-bottom {
 .marketing p + h4 {
   margin-top: 28px;
 }
-
+div.results {
+  margin-left: 50px;
+}
+.result-text {
+  font-size: 17px;
+}
+#progress {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  left: 400px;
+  top: 300px;
+  width: 200px;
+  height: 20px;
+  margin-top: -20px;
+  margin-left: -100px;
+  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 4px;
+  padding: 2px;
+}
+#progress-bar {
+  width: 0;
+  height: 100%;
+  background-color: #76A6FC;
+  border-radius: 4px;
+}
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 100%;
+  height: 3rem;
+  font-size: 17px;
+  line-height: 26px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  outline: none;
+  flex-grow: 1;
+}
+.typeahead {
+  background-color: #fff;
+}
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.tt-hint {
+  color: #999999;
+}
+.tt-dropdown-menu {
+  width: 100%;
+  margin-top: 12px;
+  padding: 8px 0;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+}
+.tt-suggestion p {
+  margin: 0;
+}
+.beta-warning {
+  text-align: right;
+}
 /* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
+/*Mid Sized Devices, Tablets*/
+@media screen and (min-width: 45rem) {
   .container {
-    max-width: 730px;
+    max-width: 100%;
   }
-
+  .nav {
+    height: 7%;
+  }
   /* Remove the padding we set earlier */
   .header,
   .marketing,
@@ -172,107 +265,30 @@ p.scrunched-bottom {
     padding-left: 0;
     padding-right: 0;
   }
-
   /* Space out the masthead */
   .header {
     margin-bottom: 30px;
   }
-
-}
-
-div.results {
-    margin-left:50px;
-}
-
-.result-text {
-    font-size: 20px;
-}
-
-#progress {
-    display: none;
-    position: absolute;
-    z-index: 1000;
-    left: 400px;
-    top: 300px;
-    width: 200px;
-    height: 20px;
-    margin-top: -20px;
-    margin-left: -100px;
-    background-color: #fff;
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 4px;
-    padding: 2px;
-}
-
-#progress-bar {
-    width: 0;
-    height: 100%;
-    background-color: #76A6FC;
-    border-radius: 4px;
-}
-
-.typeahead,
-.tt-query,
-.tt-hint {
-  width: 360px;
-  height: 30px;
-  padding: 8px 12px;
-  font-size: 20px;
-  line-height: 26px;
-  border: 2px solid #ccc;
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
-  outline: none;
-}
-
-.typeahead {
-  background-color: #fff;
-}
-
-.typeahead:focus {
-  border: 2px solid #0097cf;
-}
-
-.tt-query {
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-}
-
-.tt-hint {
-  color: #999
-}
-
-.tt-dropdown-menu {
-  width: 422px;
-  margin-top: 12px;
-  padding: 8px 0;
-  max-height: 150px;
-  overflow-y: auto; 
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 8px;
-     -moz-border-radius: 8px;
-          border-radius: 8px;
-  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
-          box-shadow: 0 5px 10px rgba(0,0,0,.2);
-}
-
-.tt-suggestion {
-  padding: 3px 20px;
-  font-size: 18px;
-  line-height: 24px;
-}
-
-.tt-suggestion.tt-cursor {
-  color: #fff;
-  background-color: #0097cf;
-
-}
-
-.tt-suggestion p {
-  margin: 0;
+  .mappanel {
+    margin: 0%;
+    width: 60%;
+    height: 92%;
+    display: inline-block;
+    position: relative;
+  }
+  .resultspanel {
+    width: 40%;
+    margin: 0%;
+    float: left;
+    height: 92%;
+    overflow-y: scroll;
+  }
+  .intropanel {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+  .footerpanel {
+    bottom: 0;
+  }
 }
