@@ -88,8 +88,6 @@ function selectedProperty(address,parcelid) {
   $('#linkToGISSite').html("<a href=\"" 
     + generateGISLink(parcelid) 
     + "\" target=\"_blank\">View Property on GIS Site</a>");
-  $("#intropanel").hide();
-  $("#foundpanel").show();
 };
 
 function lookupValue(value) {
@@ -122,8 +120,6 @@ function lookupValue(value) {
   if (newMarkers.length === 0) {
     refreshNeeded = true;
     markerList = allMarkers;
-    $("#intropanel").show();
-    $("#foundpanel").hide();
   }
   else if (newMarkers.length === 1) {
     selectedProperty(newMarkers[0].address, newMarkers[0].parcelid);
@@ -184,7 +180,6 @@ function initMarkers() {
 }
 
 function initSite() {
-  $("#foundpanel").hide();
   $('#last_update').text(lastupdated);
 
   createMap();
