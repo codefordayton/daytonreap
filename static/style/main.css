@@ -89,6 +89,10 @@ img.firstlogo {
   width: 130px;
   padding-bottom:1em;
 }
+a.right-image {
+  text-align: right;
+  display: block;
+}
 p.footertext {
   font-size: 10px;
   padding-top: 0;
