@@ -187,3 +187,9 @@ function initSite() {
 };
 
 initSite();
+
+function searchInputFix() {
+  $('.twitter-typeahead').css('display', '');
+}
+
+searchInputFix();
