@@ -1,7 +1,5 @@
-Dayton REAP - bakerjaandrew fork
+Dayton REAP
 ==========
-
-Preview of this fork http://daytonreap-bakerjaandrew.c9.io/
 
 Web application to streamline Dayton's REAP (Real Estate Acquisition Process) Program.
 
