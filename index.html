@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-   <title>Dayton REAP</title>
-   <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
-   <link rel="stylesheet" href="static/style/main.css" />
-   <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-   <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
-   <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-</head>
+   <head>
+      <title>Dayton REAP</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+      <link rel="stylesheet" href="static/style/main.css" />
+      <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+      <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
+      <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+   </head>
    <body>
       <div class="navbar">
          <div class="logo-container">
@@ -29,12 +29,12 @@
             <div id="custom-templates">
                <input class="typeahead" id="addressInput" type="text" placeholder="Enter Street Address or Parcel ID"></input>
             </div>
-            
-            <p class="result-text" id="selectedAddress"></p>
-            <p class="result-text" id="selectedParcelId"></p>
-            <p class="result-text" id="linkToTreasuresSite"></p>
-            <p class="result-text" id="linkToGISSite"></p>
-            
+            <div class="results">
+               <p class="result-text" id="selectedAddress"></p>
+               <p class="result-text" id="selectedParcelId"></p>
+               <p class="result-text" id="linkToTreasuresSite"></p>
+               <p class="result-text" id="linkToGISSite"></p>
+            </div>
             <hr />
          </div>
          
