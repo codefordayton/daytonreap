@@ -6,6 +6,7 @@
     "leaflet": "~0.7.3",
     "leaflet.markercluster": "~0.4.0",
     "jquery": "~1.11.1",
-    "typeahead.js": "~0.10.5"
+    "typeahead.js": "~0.10.5",
+    "jquery-typeahead": "2.1.2"
   }
 }

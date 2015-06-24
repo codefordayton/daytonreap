@@ -1,63 +1,105 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Dayton REAP</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
-<!--  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" /> -->
-  <link rel="stylesheet" href="static/style/main.css" />
-  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
-  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-</head>
-<body>
-    <ul class="nav">
-      <li><a class="header" href="#">LotLinker</a></li>
-<!--      <li><a href="#">About</a></li>
-      <li><a href="#">Resources</a></li>-->
-      <li><p class="beta-warning">BETA SOFTWARE. NOT FOR PRODUCTION USE.</p></li>
-    </ul>
+   <head>
+      <title>Dayton REAP</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0">
+      <link rel="stylesheet" href="static/style/main.css" />
+      <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+      <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
+      <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+   </head>
+   <body>
+      <div class="navbar">
+         <div class="logo-container">
+            <a class="logo" href="#"><h2>LotLinker</h2></a>
+         </div>
+         
+         <div class="beta-container">
+           <p>BETA SOFTWARE. NOT FOR PRODUCTION USE.</p>
+         </div>
+      </div>
       <div class="mappanel">
-        <div id="map" class="col-md-7 map"></div>
+         <div id="map" class="map">
+            
+         </div>
       </div>
+      
       <div class="resultspanel">
-        <div class="contentpanel searchpanel">
-          <div id="custom-templates">
-            <input class="typeahead" id="addressInput" type="text" placeholder="Enter Street Address or Parcel ID"></input>
-          </div>
-          <p class="result-text" id="selectedAddress"></p>
-          <p class="result-text" id="selectedParcelId"></p>
-          <p class="result-text" id="linkToTreasuresSite"></p>
-          <p class="result-text" id="linkToGISSite"></p>
-          <hr />
-        </div>
-        <div id="intropanel" class="intropanel">
-          <h1>Lot Linker Search Tool</h1>
-          <p><a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx" target="_blank">Lot Links</a> is the City of Dayton program that uses a state provision for Real Estate Acquisition Process, commonly referred to as "REAP," to take title to tax delinquent abandoned properties in the City of Dayton. The City can then sell those properties to qualified buyers.</p>
-          <p>This tool streamlines your search by showing only those properties that meet the first four eligibility criteria for the Lot Links program.</p>
-          <strong>The property:</strong>
-          <ul class="scrunched">
-            <li>is in the City of Dayton.</li>
-            <li>is at least 2 years in arrears on taxes.</li>
-            <li>has not had their tax lien sold.</li>
-            <li>is not on a delinquent tax payment plan.</li>
-          </ul>
-          <p>You can search by address, parcel number, or by visual inspection of the map.</p>
-          <p>To view the address and parcel number of a location on the map, double click on the blue balloon icon. <img class="small-balloon" src="/bower_components/leaflet/dist/images/marker-icon.png"></p>
-          <strong>If the property does not show up in this search tool, then it is not Lot Links eligible at this time.</strong>
-          <p>When you find an eligible property you're interested in, you need to find out if anyone else has already applied for it. Carefully copy the address and parcel number and send that info to <a href="mailto:lotlinks@daytonohio.gov">lotlinks@daytonohio.gov</a>. The Lot Links team will check the records and send you a response.</p>
-          <a class="right-image" href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx"><img class="" src="static/images/lotlinks.jpg" /></a>
-          <p class="fineprint"><i>The data for this tool comes directly from the Montgomery County Treasurers Office database, which is updated at the end of every month. The county's data was last queried for LotLinker on <span id="last_update"></span>.</i></p>
-        </div>
-        <div class="contentpanel footerpanel">
-          <p class="footertext">Made with pride by</p>
-          <a href="http://codefordayton.org"><img class="logo firstlogo" src="static/images/logo.png" /></a>
-        </div>
+         <div class="contentpanel searchpanel">
+            <div id="custom-templates">
+               <input class="typeahead" id="addressInput" type="text" placeholder="Enter Street Address or Parcel ID"></input>
+            </div>
+            <div class="results">
+               <p class="result-text" id="selectedAddress"></p>
+               <p class="result-text" id="selectedParcelId"></p>
+               <p class="result-text" id="linkToTreasuresSite"></p>
+               <p class="result-text" id="linkToGISSite"></p>
+            </div>
+            <hr />
+         </div>
+         
+         <div id="intropanel" class="intropanel">
+            <div class="introcontainer">
+               <h1>Lot Linker Search Tool</h1>
+               <p class="intro-paragraph"><a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx" target="_blank">Lot Links</a> is the City of Dayton program that uses a state provision for Real Estate Acquisition Process, commonly referred to as "REAP," to take title to tax delinquent abandoned properties in the City of Dayton. The City can then sell those properties to qualified buyers.<br><br>This tool streamlines your search by showing only those properties that meet the first four eligibility criteria for the Lot Links program.</p>
+               
+               <div class="FAQcontainer">
+                  <div id="FAQ-howto" class="FAQ-item">
+                     <h4><span class="expand-icon">+</span> How do I use this tool?</h4>
+                     <div id="FAQ-howto-expand" class="FAQ-expand">
+                        <p>You can search by address, parcel number, or by visual inspection of the map.<br>To view the address and parcel number of a location on the map, double click on the blue balloon icon. <img class="small-balloon" src="/bower_components/leaflet/dist/images/marker-icon.png"></p>
+                     </div>
+                  </div>
+                  
+                  
+                  <div id="FAQ-nowwhat" class="FAQ-item">
+                     <h4><span class="expand-icon">+</span> I found a property I am intersted in! Now what?</h4>
+                     <div id="FAQ-nowwhat-expand" class="FAQ-expand">
+                        <p>When you find an eligible property you're interested in, you need to find out if anyone else has already applied for it. Carefully copy the address and parcel number and send that info to <a href="mailto:lotlinks@daytonohio.gov">lotlinks@daytonohio.gov</a>. The Lot Links team will check the records and send you a response.</p>
+                     </div>
+                  </div>
+                  
+                  
+                  <div id="FAQ-notfound" class="FAQ-item">
+                     <h4><span class="expand-icon">+</span> I can't find the property I am looking for?</h4>
+                     <div id="FAQ-notfound-expand" class="FAQ-expand">
+                        <p>If the property does not show up in this search tool, then it is not Lot Links eligible at this time.</p>
+                     </div>
+                  </div>
+                  
+                  
+                  <div id="FAQ-eligibility" class="FAQ-item">
+                     <h4><span class="expand-icon">+</span> What makes a property eligible for Lot Links?</h4>
+                     <div id="FAQ-eligibility-expand" class="FAQ-expand">
+                     <ul class="scrunched">
+                        <li>is in the City of Dayton.</li>
+                        <li>is at least 2 years in arrears on taxes.</li>
+                        <li>has not had its tax lien sold.</li>
+                        <li>is not on a delinquent tax payment plan.</li>
+                     </ul>
+                     
+                  </div>
+                  </div>
+                  
+               </div>
+               <a class="right-image" href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx"><img class="" src="static/images/lotlinks.jpg" /></a>
+               <p class="fineprint"><i>The data for this tool comes directly from the Montgomery County Treasurers Office database, which is updated at the end of every month. The county's data was last queried for LotLinker on <span id="last_update"></span>.</i></p>
+               
+            </div>
+            <div class="contentpanel footerpanel">
+               <div class="footer">
+                  <p class="footertext">Made with pride by</p>
+                  <a href="http://codefordayton.org"><img class="logo firstlogo" src="static/images/logo.png" /></a>
+               </div>
+            </div>
+         </div>
       </div>
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/leaflet/dist/leaflet.js"></script>
-  <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
-  <script src="bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
-  <script src="static/data/reaps.json"></script>
-  <script src="static/js/main.js"></script>
-</body>
+      <script src="bower_components/jquery/dist/jquery.js"></script>
+      <script src="bower_components/leaflet/dist/leaflet.js"></script>
+      <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+      <script src="bower_components/typeahead.js/dist/typeahead.bundle.min.js"></script>
+      <script src="static/data/reaps.json"></script>
+      <script src="bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+      <script src="static/js/main.js"></script>
+   </body>
 </html>

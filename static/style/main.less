@@ -3,7 +3,13 @@ html, body {
    height: 100%;
    max-width: 100%;
    margin:0px;
+   background-color: #fafafa;
 }
+
+a{
+   color: rgb(4, 155, 162);;
+}
+
 
 .container-fluid {
    background-color: white;
@@ -11,49 +17,79 @@ html, body {
 
 //Panels
 .mappanel {
-  width: 95%;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  height: 65VH;
-  display: inline-block;
-  position: relative;
+   width: 95%;
+   margin-left: 2.5%;
+   margin-right: 2.5%;
+   height: 20rem;
+   -webkit-height: 65vh;
+   -moz-height: 65vh;
+   -ms-height: 65vh;
+   -o-height: 65vh;
+   
+   display: inline-block;
+   position: relative;
 }
 
 .resultspanel {
-  float: left;
-  width: 100%;
-  height: 95%;
-  float: right; 
-  padding-top: 3px;
+   position: relative;
+   float: left;
+   width: 100%;
+   height: 95%;
+   float: right; 
+   padding-top: 3px;
+   background-color: #fafafa;
 }
 
 .intropanel{
-  width: 95%;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
+   z-index: 25;
+   position: relative;
+   width: 100%;
+   height: 100%;
+   
+   .introcontainer{
+      margin-top: 90px;
+      width: 95%;
+      margin-left: 2.5%;
+      margin-right: 2.5%;
+      
+   }
+   
 }
 
 .contentpanel {
-  width: 100%;
+   width: 100%;
 }
 
 .searchpanel {
-  padding-top: 10px;
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
+   z-index: 50;
+   position: absolute;
+   padding-top: 10px;
+   width: 100%;
+   background-color: #fafafa;
 }
 
 .footerpanel {
-  background-color:#666;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  text-align: center;
-  width: 100%;
+   position: relative;
+   width: 100%;
+}
+
+.footer {
+   width: 100%;
+   position: absolute;
+   background-color:#666;
+   padding-top: 1em;
+   padding-bottom: 1em;
+   text-align: center;
+   border-top: 1px solid #e5e5e5;
+}
+
+.FAQcontainer{
+   margin-top: 2rem;
+   margin-bottom: 2rem;
 }
 
 #custom-templates{
-  width: 100%;
+   width: 100%;
 }
 
 .map {
@@ -64,138 +100,90 @@ html, body {
 }
 
 .results {
-   background-color:0x000;
+   background-color:#ffffff;
 }
 
 .browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+   margin: 0.2em 0;
+   background: #ccc;
+   color: #000;
+   padding: 0.2em 0;
 }
 
 img.small-balloon {
-  width: 10px;
+   width: 10px;
 }
 
 a.right-image {
-  text-align: right;
-  display: block;
+   text-align: right;
+   display: block;
+}
+
+a, img {
+    border:none;
+    outline:none
 }
 
 img.logo {
-  width: 100px;
-  display: inline-block;
-  margin-left: auto;
-  margin-right: auto;
+   width: 100px;
+   display: inline-block;
+   margin-left: auto;
+   margin-right: auto;
 }
 
 img.firstlogo {
-  padding-right: 1em;
+   padding-right: 1em;
 }
 
 p.footertext {
-  font-size:10px;
-  padding-top:0;
-  margin-top:0;
-  color:#fff;
+   font-size:10px;
+   padding-top:0;
+   margin-top:0;
+   color:#fff;
 }
 
 p.fineprint {
-  font-size:11px;
+   font-size:11px;
 }
 
 a.header {
   text-decoration: none;
 }
 
-ul.scrunched {
-  margin-top:4px;
-}
-
-p.scrunched-bottom {
-  margin-bottom:4px;
-}
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-}
-
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  /* Make the masthead heading the same height as the navigation */
-}
-
-.nav {
-  margin:0;
-  height: 4rem;
-  max-width: 100%;
-  background-color: yellow;
-  border-bottom: 1px solid #e5e5e5;
-  
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex; 
-  
-  vertical-align: middle;
-  align-items: center;
-  padding: 0;
-}
-
-.nav li {
-  position:relative;
-  list-style:none;
-  display:inline-block;
-}
-
-.nav ul {
-  float: left;
-  margin-top:0em;
-  padding-top:0em;
-  
-  
-}
-
 /* Custom page footer */
-.footer {
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
 
 .container-narrow > hr {
-  margin: 30px 0;
+   margin: 30px 0;
 }
 
 /* Main marketing message and sign up button */
 .jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+   text-align: center;
+   border-bottom: 1px solid #e5e5e5;
 }
 .jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
+   font-size: 21px;
+   padding: 14px 24px;
 }
 
 /* Supporting marketing content */
 .marketing {
-  margin: 40px 0;
+   margin: 40px 0;
 }
 .marketing p + h4 {
-  margin-top: 28px;
+   margin-top: 28px;
 }
 
 
 div.results {
-   margin-left:50px;
+   width: 90%;
+   margin-left: 5%;
+   margin-right: 5%;
 }
     
 .result-text {
-   font-size: 17px;
+   font-size: .9rem;
+   
 }
     
 #progress {
@@ -230,13 +218,17 @@ div.results {
    display: -webkit-flex;
    display: flex;
    vertical-align: middle;
-   width: 100%;
+   width: 95%;
+   margin-left: 2.5%;
+   margin-right: 2.5%;
 }
 
 .typeahead,
 .tt-query,
 .tt-hint {
-   width: 100%;
+   width: 95%;
+   margin-left: 2.5%;
+   margin-right: 2.5%;
    height: 3rem;
    font-size: 17px;
    line-height: 26px;
@@ -254,7 +246,7 @@ div.results {
 }
 
 .typeahead:focus {
-   border: 2px solid #0097cf;
+   border: 2px solid rgb(4, 155, 162);
 }
 
 .tt-query {
@@ -269,7 +261,9 @@ div.results {
 }
 
 .tt-dropdown-menu {
-   width: 100%;
+   width: 95%;
+   margin-left: 2.5%;
+   margin-right: 2.5%;
    margin-top: 12px;
    padding: 8px 0;
    max-height: 150px;
@@ -295,18 +289,305 @@ div.results {
 
 .tt-suggestion.tt-cursor {
    color: #fff;
-   background-color: #0097cf;
+   background-color: rgb(4, 155, 162);
 }
 
 .tt-suggestion p {
    margin: 0;
 }
 
-.beta-warning{
-   text-align: right;
+
+
+
+//WIP Web Design and Interface Update
+.navbar{
+   float: left;
+   position: relative;
+   width: 100%;
+   height: 4rem;
+   background-color: rgb(4, 155, 162);
+   
+   
+   .logo-container{
+      float: left;
+      height: 100%;
+      width: 10%;
+      display: table-cell;
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      vertical-align: middle;
+      align-items: center;
+     
+      
+      .logo{
+         //Logo currently just HTML text
+         color: #fefefe;
+         margin-left: 2rem;
+         text-decoration: none;
+         display: table-cell;
+         display: -webkit-box;
+         display: -moz-box;
+         display: -ms-flexbox;
+         display: -webkit-flex;
+         display: flex;
+         vertical-align: middle;
+         align-items: center;
+         
+         &:hover{
+            color: #323232;
+         }
+         
+      }
+   }
+   
+   .nav-menu{
+      float: right;
+      height: 100%;
+      display: inline-block;
+      padding: 0;
+      margin: 0;
+
+      display: -webkit-box;
+      display: -moz-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      vertical-align: middle;
+      align-items: center;
+
+      li{
+         display: -webkit-box;
+         display: -moz-box;
+         display: -ms-flexbox;
+         display: -webkit-flex;
+         display: flex;
+         vertical-align: middle;
+         list-style: none;
+         padding-left: .75rem;
+         padding-right: .75rem;
+         
+         a{
+            color: #fefefe;
+         }
+         
+      }
+   }
+}
+
+.beta-container{
+   width: 100%;
+   position: absolute;
+   text-align: center;
+   color: yellow;
+}
+
+.intro-paragraph{
+   font-size: .9rem;
+}
+
+   
+.FAQ-item{
+   cursor: pointer;
+   position: relative;
+   width: 80%;
+   margin-left: 10%;
+   padding-top: .5rem;
+   padding-bottom: .5rem;
+   margin-top: 1rem;
+   margin-bottom: 1rem;
+   background-color: #dfdfdf;
+   border-radius: .5rem .5rem .5rem .5rem;
+   box-shadow: 1px 2px 2px #b8b8b8; 
+   
+   h4{
+      margin: 0rem;
+      margin-left: .5rem;
+      margin-right: .5rem;
+      
+      p{
+         height: 100%;
+         float: left;  
+         margin: 0;
+         margin-right: 1rem;
+      }
+      
+      span{
+         margin-left: .5rem;
+         margin-right: .5rem;
+         
+      }
+      
+      .expanded-icon{
+         color: #e74c3c;
+      }
+   }
+   
+   
+}
+
+.FAQ-expand{
+   position: relative;
+   width: 90%;
+   margin-left: 5%;
+   height:  auto;
+   background-color: #dfdfdf;
+   display: none;
+   border-radius: .5rem .5rem .5rem .5rem;
+   
+   *{
+      display: none;
+      
+   }
+   
+   p{
+      font-size: .9rem;
+      
+      margin: 1rem;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+   }
+   ul{
+      margin: 1rem;
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+   }
 }
 
 
+
+#FAQ-notfound-expand p{
+   color: #e74c3c;
+}
+
+
+//Animations
+.transition(@time){
+    -webkit-transition: all @time ease-in-out;
+	-moz-transition: all @time ease-in-out;
+	-o-transition: all @time ease-in-out;
+	transition: all @time ease-in-out;
+}
+
+.anim(@time){ 
+    -webkit-animation-duration: @time;
+    -moz-animation-duration: @time; 
+    -o-animation-duration: @time;
+    animation-duration: @time; 
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: ease-in-out; 
+    -moz-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out; 
+}
+//Fade In Down
+	@-webkit-keyframes fadeInDown { 
+	    0% { 
+	        opacity: 0; 
+	        -webkit-transform: translateY(-20px); 
+	    } 
+	    100% { 
+	        opacity: 1; 
+	        -webkit-transform: translateY(0); 
+	    } 
+}
+	
+	@-moz-keyframes fadeInDown {
+		0% { 
+	        opacity: 0; 
+	        -moz-transform: translateY(-20px); 
+	    } 
+	    100% { 
+	        opacity: 1; 
+	        -moz-transform: translateY(0); 
+	    }
+}
+	
+	@-o-keyframes fadeInDown {
+		0% { 
+	        opacity: 0; 
+	        -o-transform: translateY(-20px); 
+	    } 
+	    100% { 
+	        opacity: 1; 
+	        -o-transform: translateY(0); 
+	    }
+}
+	
+	@keyframes fadeInDown { 
+	    0% { 
+	        opacity: 0; 
+	        transform: translateY(-20px); 
+	    } 
+	    100% { 
+	        opacity: 1; 
+	        transform: translateY(0); 
+	    } 
+} 
+
+.fade-in-down {
+	.anim(.5s);
+    -webkit-animation-name: fadeInDown;
+    -moz-animation-name: fadeInDown;
+    -o-animation-name: fadeInDown;
+    animation-name: fadeInDown; 
+}
+
+//Fade Out Up
+	@-webkit-keyframes fadeOutUp { 
+	    0% { 
+	        opacity: 1; 
+	        -webkit-transform: translateY(0); 
+	    } 
+	    100% { 
+	        opacity: 0; 
+	        -webkit-transform: translateY(-20px); 
+	    } 
+}
+	
+	@-moz-keyframes fadeOutUp { 
+	    0% { 
+	        opacity: 1; 
+	        -moz-transform: translateY(0); 
+	    } 
+	    100% { 
+	        opacity: 0; 
+	        -moz-transform: translateY(-20px); 
+	    } 
+}
+	
+	@-o-keyframes fadeOutUp { 
+	    0% { 
+	        opacity: 1; 
+	        -o-transform: translateY(0); 
+	    } 
+	    100% { 
+	        opacity: 0; 
+	        -o-transform: translateY(-20px); 
+	    } 
+}
+	
+	@keyframes fadeOutUp { 
+	    0% { 
+	        opacity: 1; 
+	        transform: translateY(0); 
+	    } 
+	    100% { 
+	        opacity: 0; 
+	        transform: translateY(-20px); 
+	    } 
+}
+
+.fade-out-up {
+	.anim(.5s);
+    -webkit-animation-name: fadeOutUp;
+    -moz-animation-name: fadeOutUp;
+    -o-animation-name: fadeOutUp;
+    animation-name: fadeOutUp; 
+}
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 45rem){
@@ -315,7 +596,8 @@ div.results {
    .mappanel {
       margin: 0%;
       width: 60%;
-      height: 92%;
+      height: 40rem;
+      height: 91%;
       display: inline-block;
       position: relative;
    }
@@ -324,14 +606,22 @@ div.results {
       width: 40%;
       margin: 0%;
       float: left;
-      height: 92%;
-      overflow-y: scroll;
+      height: 91VH;
+      overflow-y: hidden;
    }
     
    .intropanel{
-      width: 90%;
-      margin-left: 5%;
-      margin-right: 5%;
+      height: 100%;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      overflow-y: auto;
+      
+      background-color: #fafafa;
+      
+      .introcontainer{
+         margin-top: 90px;
+      }
    }
     
    .footerpanel{
@@ -352,7 +642,41 @@ div.results {
     
     /* Space out the masthead */
    .header {
-      margin-bottom: 30px;
+      
    }
+   
+   //WIP Design and Interface Update
+   .navbar{
+      height: 7%;
+   }
+   
+   .FAQ-item{
+      width: 95%;
+      margin-left: 2.5%;
+      margin-right: 2.5%;
+   }
+}
+
+@media screen and (min-width: 60rem){
+   //Panels
+   .mappanel {
+      margin: 0%;
+      width: 70%;
+      height: 40rem;
+      height: 91%;
+      display: inline-block;
+      position: relative;
+   }
+    
+   .resultspanel {
+      width: 30%;
+   }
+   
+   .FAQ-item{
+      width: 90%;
+      margin-left: 5%;
+      margin-right: 5%;
+   }
+   
 }
 
