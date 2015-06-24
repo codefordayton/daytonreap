@@ -377,6 +377,12 @@ div.results {
 #FAQ-notfound-expand p {
   color: #e74c3c;
 }
+.error-text {
+   color: #e74c3c;
+}
+#custom-templates .empty-message {
+  padding: 5px 10px;
+}
 @-webkit-keyframes fadeInDown {
   0% {
     opacity: 0;
