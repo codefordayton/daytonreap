@@ -75,7 +75,7 @@ $("document").ready(function() {
     displayKey: "value",
     source: substringMatcher(markerSearch),
     templates: {
-      empty: '<div class="empty-message">No properties were found that match the current query.</div>'
+      empty: '<div class="empty-message">No Lot Links eligible properties were found. <br /><span class="error-text">If you provided a complete address, then the property is not eligible for Lot Links at this time.</span></div>'
     }
   });
   
