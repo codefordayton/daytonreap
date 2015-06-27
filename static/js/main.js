@@ -15,11 +15,15 @@ $("document").ready(function() {
   /// Link Helper functions
   function generateTreasurersLink(parcelid){
     return "http://www.mctreas.org/master.cfm?parid=" + parcelid.replace(" ", "%20") + "&taxyr=2015&own1=SMITH";
-  }
+  };
   
   function generateGISLink(parcelid){
     return "http://www.mcegisohio.org/geobladeweb/default.aspx?config=aud&field='" + parcelid + "'";
-  }
+  };
+
+  function generateEmailLink(parcelid, address) {
+    return "mailto:lotlinks@daytonohio.gov?subject=Parcel%20" + encodeURI(parcelid) + "%20Availability&body=Lot%20Links%20Team,%0D%0AI%20am%20interested%20in%20the%20following%20parcel,%20which%20LotLinker%20said%20was%20eligible%20for%20Lot%20Links.%20Can%20you%20confirm%20that%20it%20is%20available?%0D%0A%0D%0A" + encodeURI(parcelid) + '%0D%0A' + encodeURI(address);
+  };
   
   /// typeahead helper
   function substringMatcher(strs) {
@@ -89,7 +93,10 @@ $("document").ready(function() {
     $('#linkToGISSite').html("<a href=\"" 
       + generateGISLink(parcelid) 
       + "\" target=\"_blank\">View Property on GIS Site</a>");
-    $(".introcontainer").css("margin-top", "235px");
+    $('#linkToEmail').html("<a href=\"" 
+      + generateEmailLink(parcelid, address) 
+      + "\" >Confirm Availability via Email</a>");
+    $(".introcontainer").css("margin-top", "255px");
   }
   
   function lookupValue(value) {
