@@ -96,7 +96,15 @@ $("document").ready(function() {
     $('#linkToEmail').html("<a href=\"" 
       + generateEmailLink(parcelid, address) 
       + "\" >Confirm Availability via Email</a>");
-    $(".introcontainer").css("margin-top", "255px");
+    var intropanel = $(".intropanel");
+    var height;
+    if (intropanel.data("init-height")) {
+        height = intropanel.data("init-height");
+    } else {
+        height = intropanel.height();
+        intropanel.data("init-height", height);
+    } 
+    intropanel.css("max-height", height - 149);
   }
   
   function lookupValue(value) {
