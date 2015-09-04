@@ -231,7 +231,7 @@ $("document").ready(function() {
       
       $("#"+expandFAQ).show();
       $("#"+expandFAQ+" *").show("fast");
-      $("#"+clickedFAQ+" h4 span.expand-icon").replaceWith("<span class='expanded-icon'>x</span>");
+      $("#"+clickedFAQ+" h4 span.expand-icon").replaceWith("<span class='expanded-icon'>&#8210;</span>");
     }
     
   }
