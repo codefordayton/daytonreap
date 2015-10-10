@@ -33,7 +33,8 @@ $("document").ready(function() {
       // an array that will be populated with substring matches
       matches = [];
 
-      if (q === 'R72' || q === 'r72' || q === 'R72 ' || q === 'r72 ') {
+      var startingtext = /^[Rr]72\s*$/;
+      if (startingtext.test(q)) {
         clearMarkers();
         return; 
       }
@@ -57,10 +58,6 @@ $("document").ready(function() {
       cb(matches);
     };
   };
-  
-//  $('#addressInput').on("keyup", function(e) {
-//    lookupValue($('#addressInput').val());
-//  });
   
   /* Highlight search box text on click */
   $("#addressInput").click(function () {
@@ -140,7 +137,7 @@ $("document").ready(function() {
   }
  
   function lookupValue(value) {
-    var val = $('#addressInput').val();
+    var val = $('#addressInput').val().toUpperCase();
     var refreshNeeded = false;
     var newMarkers = [];
     if (val.length > 3 && val.substring(0,3) === 'R72') {
