@@ -32,27 +32,32 @@ $("document").ready(function() {
   
       // an array that will be populated with substring matches
       matches = [];
-  
+
+      var startingtext = /^[Rr]72\s*$/;
+      if (startingtext.test(q)) {
+        clearMarkers();
+        return; 
+      }
+
       // regex used to determine if a string contains the substring `q`
       substrRegex = new RegExp(q, 'i');
   
       // iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
+      markerList = [];
       $.each(strs, function(i, str) {
         if (substrRegex.test(str)) {
           // the typeahead jQuery plugin expects suggestions to a
           // JavaScript object, refer to typeahead docs for more info
+          updateMarkers(i, str);
           matches.push({ value: str });
         }
       });
-  
+ 
+      setMarkers();
       cb(matches);
     };
   };
-  
-  $('#addressInput').on("keyup", function(e) {
-    lookupValue($('#addressInput').val());
-  });
   
   /* Highlight search box text on click */
   $("#addressInput").click(function () {
@@ -69,6 +74,10 @@ $("document").ready(function() {
   $("#addressInput").on('typeahead:selected', function(evt, item) {
     lookupValue(item.value);
   });
+
+  //var searchData = new Bloodhound({
+  //  prefetch: '../data/reaps.json'
+  //});
   
   $("#addressInput").typeahead({
     minLength: 3,
@@ -98,12 +107,39 @@ $("document").ready(function() {
       + "\" >Confirm Availability via Email</a>");
     $(".introcontainer").css("margin-top", "255px");
   }
-  
+
+  function updateMarkers(index, value) {
+    if (allMarkers[index] !== undefined && 
+      (allMarkers[index].parcelid === value || allMarkers[index].address === value))
+    {
+      markerList.push(allMarkers[index]);
+    } else if (index >= allMarkerLength && 
+        (allMarkers[index-allMarkerLength].parcelid === value || allMarkers[index-allMarkerLength].address === value))
+    {
+      markerList.push(allMarkers[index-allMarkerLength]);
+    }
+  } 
+
+  function clearMarkers() {
+    if (markerList.length !== allMarkerLength) {
+      markers.clearLayers();
+      markerList = allMarkers;
+      markers.addLayers(markerList);
+    }
+  }
+
+  function setMarkers() {
+    if (markerList.length === 0) {
+      markerList = allMarkers;
+    }
+    markers.clearLayers();
+    markers.addLayers(markerList);
+  }
+ 
   function lookupValue(value) {
-    var val = $('#addressInput').val();
+    var val = $('#addressInput').val().toUpperCase();
     var refreshNeeded = false;
     var newMarkers = [];
-    var allMarkerLength = allMarkers.length;
     if (val.length > 3 && val.substring(0,3) === 'R72') {
       for (var i = 0; i < allMarkerLength; i++) {
         if (allMarkers[i].parcelid && allMarkers[i].parcelid.indexOf(val) >= 0) {
@@ -122,7 +158,7 @@ $("document").ready(function() {
       refreshNeeded = true;
       markerList = newMarkers;
     }
-    else if (val.length < 3 && markerList.length !== allMarkers.length) {
+    else if (val.length < 3 && markerList.length !== allMarkerLength) {
       markerList = [];
     }
   
@@ -160,7 +196,7 @@ $("document").ready(function() {
     for (var i = 0; i < points.length; i++) {
       var a = points[i];
       var title = a.street;
-      var marker = L.marker(L.latLng(parseFloat(a.locationdata.latitude), parseFloat(a.locationdata.longitude)), { title: title});
+      var marker = L.marker(L.latLng(parseFloat(a.lat), parseFloat(a.lon)), { title: title});
       marker.address = a.street;
       marker.parcelid = a.parcelid;
   
@@ -171,14 +207,13 @@ $("document").ready(function() {
       markerList.push(marker);
     }
     allMarkers = markerList;
+    allMarkerLength = allMarkers.length;
   
-    for (var i = 0; i < allMarkers.length; i++) {
-      if (allMarkers[i].parcelid) {
+    for (var i = 0; i < allMarkerLength; i++) {
         markerSearch.push(allMarkers[i].parcelid);
-      }
-      if (allMarkers[i].address) {
+    }
+    for (i = 0; i < allMarkerLength; i++) {
         markerSearch.push(allMarkers[i].address);
-      }
     }
   
     markers = L.markerClusterGroup({
@@ -213,8 +248,6 @@ $("document").ready(function() {
   
   uiFixes();
   
-  
-  
   //JS FAQ triggers
   
   function clickedFAQ(element) {
@@ -235,7 +268,6 @@ $("document").ready(function() {
     }
     
   }
-  
   
   $("[id^=FAQ-]").click( function() {
     clickedFAQ(this);
