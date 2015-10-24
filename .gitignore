@@ -5,3 +5,5 @@ dist
 bower_components
 .divshot-cache
 *.swp
+static/data/old
+.htaccess
