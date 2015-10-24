@@ -1,4 +1,10 @@
 {
   "name": "daytonreap",
-  "routes": { "**": "app/index.html" }
+  "routes": { "**": "app/index.html" },
+  "exclude": [".htaccess",
+              ".sass-cache",
+              ".tmp",
+              ".DS_Store",
+              "node_modules",
+              "static/data/reaps.json.*"]
 }
