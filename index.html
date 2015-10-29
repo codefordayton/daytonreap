@@ -49,6 +49,7 @@
                <p class="result-text" id="selectedParcelId"></p>
                <p class="result-text" id="linkToTreasuresSite"></p>
                <p class="result-text" id="linkToGISSite"></p>
+               <p class="result-text" id="claimedWarning"></p>
             </div>
             <hr />
          </div>
@@ -66,6 +67,7 @@
                            <li>is at least 2 years in arrears on taxes.</li>
                            <li>has not had its tax lien sold.</li>
                            <li>is not on a delinquent tax payment plan.</li>
+                           <li>does not already have an active REAP claim against it.</li>
                         </ul>
                      </div>
                   </div>
@@ -74,7 +76,8 @@
                   <div id="FAQ-howto" class="FAQ-item">
                      <h4><span class="expand-icon">+</span> How do I use this tool?</h4>
                      <div id="FAQ-howto-expand" class="FAQ-expand">
-                        <p>You can search by address, parcel number, or by visual inspection of the map.<br>To view the address and parcel number of a location on the map, double click on the blue balloon icon. <img class="small-balloon" src="/bower_components/leaflet/dist/images/marker-icon.png"></p>
+                        <p>You can search by address, parcel number, or by visual inspection of the map.<br>To view the address and parcel number of a location on the map, click on the blue balloon icon. <img class="small-balloon" src="/bower_components/leaflet/dist/images/marker-icon.png"></p>
+                        <p>Properties that have already been claimed show up with a red balloon. These are not available at this time.</p>
                      </div>
                   </div>
 
@@ -83,6 +86,7 @@
                      <h4><span class="expand-icon">+</span> I can't find the property I'm looking for?</h4>
                      <div id="FAQ-notfound-expand" class="FAQ-expand">
                         <p>If the property does not show up in this search tool, then it is not Lot Links eligible at this time.</p>
+                        <p>If the property shows up with a red balloon, then the property has already has an active claim against it.</p>
                      </div>
                   </div>
 
@@ -90,7 +94,8 @@
                   <div id="FAQ-nowwhat" class="FAQ-item">
                      <h4><span class="expand-icon">+</span> I found an eligible property! Now what?</h4>
                      <div id="FAQ-nowwhat-expand" class="FAQ-expand">
-                        <p>When you find an eligible property you're interested in, you need to find out if anyone else has already applied for it. Carefully copy the address and parcel number and send that info to <a href="mailto:lotlinks@daytonohio.gov">lotlinks@daytonohio.gov</a>. The Lot Links team will check the records and send you a response.</p>
+                        <p>Verify the property is vacant and abandoned. This is important! Applying for a property that is not vacant and abandoned will result in you losing half your deposit.</p>
+                        <p>Download, complete, &amp; submit the application from the <a href="http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx">Lot Links page</a>.
                      </div>
                   </div>
                   

@@ -94,8 +94,11 @@ $("document").ready(function() {
     $('#linkToGISSite').html("<a href=\"" 
       + generateGISLink(parcelid) 
       + "\" target=\"_blank\">View Property on GIS Site</a>");
-    if (claimed)
-      console.log('claimed')
+    if (claimed) {
+      $('#claimedWarning').html("This property has been claimed. It is not available at this time.");
+    } else {
+      $('#claimedWarning').html("");
+    }
     $(".introcontainer").css("margin-top", "255px");
   }
 
