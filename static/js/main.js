@@ -21,10 +21,6 @@ $("document").ready(function() {
     return "http://www.mcegisohio.org/geobladeweb/default.aspx?config=aud&field='" + parcelid + "'";
   };
 
-  function generateEmailLink(parcelid, address) {
-    return "mailto:lotlinks@daytonohio.gov?subject=Parcel%20" + encodeURI(parcelid) + "%20Availability&body=Lot%20Links%20Team,%0D%0AI%20am%20interested%20in%20the%20following%20parcel,%20which%20LotLinker%20said%20was%20eligible%20for%20Lot%20Links.%20Can%20you%20confirm%20that%20it%20is%20available?%0D%0A%0D%0A" + encodeURI(parcelid) + '%0D%0A' + encodeURI(address);
-  };
-  
   /// typeahead helper
   function substringMatcher(strs) {
     return function findMatches(q, cb) {
@@ -75,12 +71,8 @@ $("document").ready(function() {
     lookupValue(item.value);
   });
 
-  //var searchData = new Bloodhound({
-  //  prefetch: '../data/reaps.json'
-  //});
-  
   $("#addressInput").typeahead({
-    minLength: 3,
+    minLength: 0,
     highlight: true,
     hint: false
   }, {
@@ -93,7 +85,7 @@ $("document").ready(function() {
   });
   
   /// Lookup based on typeahead and updating right bar
-  function selectedProperty(address,parcelid) {
+  function selectedProperty(address,parcelid, claimed) {
     $('#selectedAddress').text(address);
     $('#selectedParcelId').text(parcelid);
     $('#linkToTreasuresSite').html("<a href=\"" 
@@ -102,9 +94,11 @@ $("document").ready(function() {
     $('#linkToGISSite').html("<a href=\"" 
       + generateGISLink(parcelid) 
       + "\" target=\"_blank\">View Property on GIS Site</a>");
-    $('#linkToEmail').html("<a href=\"" 
-      + generateEmailLink(parcelid, address) 
-      + "\" >Confirm Availability via Email</a>");
+    if (claimed) {
+      $('#claimedWarning').html("This property has been claimed. It is not available at this time.");
+    } else {
+      $('#claimedWarning').html("");
+    }
     $(".introcontainer").css("margin-top", "255px");
   }
 
@@ -140,6 +134,7 @@ $("document").ready(function() {
     var val = $('#addressInput').val().toUpperCase();
     var refreshNeeded = false;
     var newMarkers = [];
+
     if (val.length > 3 && val.substring(0,3) === 'R72') {
       for (var i = 0; i < allMarkerLength; i++) {
         if (allMarkers[i].parcelid && allMarkers[i].parcelid.indexOf(val) >= 0) {
@@ -167,7 +162,7 @@ $("document").ready(function() {
       markerList = allMarkers;
     }
     else if (newMarkers.length === 1) {
-      selectedProperty(newMarkers[0].address, newMarkers[0].parcelid);
+      selectedProperty(newMarkers[0].address, newMarkers[0].parcelid, newMarkers[0].claimed);
     }
   
     if (refreshNeeded) {
@@ -190,20 +185,42 @@ $("document").ready(function() {
     map = L.map('map', { center: latlng, zoom: 10, layers: [mapTiles] });
     L.control.layers({"Map":mapTiles,"Satellite":satTiles}).addTo(map);
   }
-  
+
+  function popup(street, parcel) {
+    return '<p>' + street + '</p>' +
+           '<p>' + parcel + '</p>';
+  }
+ 
   function initMarkers() {
     markerList = [];
+
+    var redMarker = L.AwesomeMarkers.icon({
+      icon: 'close-round',
+      markerColor: 'red',
+      prefix: 'ion'
+    });
+
+    var blueMarker = L.AwesomeMarkers.icon({
+      icon: 'home',
+      markerColor: 'blue',
+      prefix: 'ion'
+    });
+
     for (var i = 0; i < points.length; i++) {
       var a = points[i];
       var title = a.street;
-      var marker = L.marker(L.latLng(parseFloat(a.lat), parseFloat(a.lon)), { title: title});
+      var icon = blueMarker;
+      if (a.claimed)
+        icon = redMarker;
+      var marker = L.marker(L.latLng(parseFloat(a.lat), parseFloat(a.lon)), { title: title, icon: icon });
       marker.address = a.street;
       marker.parcelid = a.parcelid;
+      marker.claimed = a.claimed;
   
       marker.on('click', function(e) {
-        selectedProperty(e.target.address, e.target.parcelid);
+        selectedProperty(e.target.address, e.target.parcelid, e.target.claimed);
       });
-      marker.bindPopup(title);
+      marker.bindPopup(popup(title, a.parcelid));
       markerList.push(marker);
     }
     allMarkers = markerList;
