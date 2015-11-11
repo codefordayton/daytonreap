@@ -210,9 +210,9 @@ div.results {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 .tt-hint {
-  color: #999999;
+  color: #999;
 }
-.tt-dropdown-menu {
+.tt-menu {
   width: 95%;
   margin-left: 2.5%;
   margin-right: 2.5%;
@@ -237,7 +237,9 @@ div.results {
   font-size: 18px;
   line-height: 24px;
 }
-.tt-suggestion.tt-cursor {
+.tt-suggestion.tt-cursor,
+.tt-suggestion:hover {
+  cursor: pointer;
   color: #fff;
   background-color: #049ba2;
 }
@@ -375,7 +377,7 @@ div.results {
   color: #e74c3c;
 }
 .error-text {
-   color: #e74c3c;
+  color: #e74c3c;
 }
 #custom-templates .empty-message {
   padding: 5px 10px;
