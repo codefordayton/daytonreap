@@ -29,12 +29,6 @@ $("document").ready(function() {
       // an array that will be populated with substring matches
       matches = [];
 
-      var startingtext = /^[Rr]72\s*$/;
-      if (startingtext.test(q)) {
-        clearMarkers();
-        return; 
-      }
-
       // regex used to determine if a string contains the substring `q`
       substrRegex = new RegExp(q, 'i');
   
