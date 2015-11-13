@@ -12,7 +12,7 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "less": "lessc static/style/*.less > static/style/main.css",
+    "less": "lessc static/style/main.less > static/style/main.css",
     "start": "parallelshell \"browser-sync start --config bsync-config.js\" \"npm run watch\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "nodemon -e less -w static/style -x \"npm run less\""
