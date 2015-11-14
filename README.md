@@ -17,10 +17,10 @@ git clone https://github.com/codefordayton/daytonreap.git
 cd daytonreap
 npm install
 bower install
-python -m SimpleHTTPServer
+npm run start
 ```
 
-Running `python` will start a server, and should open a browser window at http://localhost:8000/. 
+Running `npm run start` will start a server, and should open a browser window at http://localhost:8000/. 
 
 If you run into any issues, don't hesitate to create an issue in this repo, or contact us via one of the methods described at http://codefordayton.org/.
 
