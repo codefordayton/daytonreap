@@ -20,7 +20,6 @@ bower install
 npm run start
 ```
 
-Running `npm run start` will start a server, and should open a browser window at http://localhost:8000/. 
+Running `npm start` will start a server, and should open a chrome window at http://localhost:8000/. If you get errors, make sure you have chrome installed on your machine. If you'd like to turn this feature off, open bsync-config.js and change `'open': true` to `'open': false`
 
 If you run into any issues, don't hesitate to create an issue in this repo, or contact us via one of the methods described at http://codefordayton.org/.
-

@@ -28,8 +28,10 @@ module.exports = {
     'proxy': false,
     'port': 8000,
     'middleware': false,
-    'open': 'local',
-    'browser': 'chrome',
+    'open': true,
+    //'open': false, // turn off auto-opening a browser
+    'browser': 'chrome', // use chrome for development
+    // 'browser': 'firefox', // use firefox for development
     'reloadOnRestart': false,
     'notify': false,
 };
