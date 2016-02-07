@@ -5,7 +5,7 @@ from datetime import datetime
 
 applied = []
 with open('parcels.csv') as csvfile:
-  reader = csv.DictReader(csvfile, ['stuff', 'parcel', 'addl', 'address'])
+  reader = csv.DictReader(csvfile, ['parcel', 'addl', 'address'])
   for row in reader:
     applied.append(row['parcel'])
     if len(row['addl']) > 0:
@@ -23,7 +23,8 @@ with open('reapitems.csv') as csvfile:
     reader = csv.DictReader(csvfile, ['parcel', 'street', 'eligible', 'paymentplan', 'lastyear', 'paymentwindow'])
     for row in reader:
         #if the record should be included, include it
-        if row['parcel'].startswith('R72') == True and row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and row['paymentwindow'] == 'False' and row['lastyear'] < '2012':
+        # if row['parcel'].startswith('R72') == True and 
+        if row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and row['paymentwindow'] == 'False' and row['lastyear'] < '2013':
             try:
                 latlon = db[row['parcel']].split()
                 claimed = False
