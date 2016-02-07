@@ -1,0 +1,14 @@
+{
+  "firebase": "mclotlinker",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**",
+    ".htaccess",
+    ".sass-cache",
+    ".tmp",
+    ".DS_Store",
+    "node_modules",
+    "static/data/reaps.json.*"]
+}

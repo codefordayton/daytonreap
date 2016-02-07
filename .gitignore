@@ -7,3 +7,7 @@ bower_components
 *.swp
 static/data/old
 .htaccess
+reaps.*.json
+georeaps.*
+parcels.*
+reapitems.*
