@@ -20,17 +20,20 @@ db = dbm.open('./centroids.dbm', 'r')
 file = open('georeaps.json', 'w')
 values = []
 with open('reapitems.csv') as csvfile:
-    reader = csv.DictReader(csvfile, ['parcel', 'street', 'eligible', 'paymentplan', 'lastyear', 'paymentwindow'])
+    reader = csv.DictReader(csvfile, ['parcel', 'street', 'eligible', 'paymentplan', 'lastyear', 'paymentwindow', 'class', 'buildingvalue'])
     for row in reader:
         #if the record should be included, include it
         # if row['parcel'].startswith('R72') == True and 
-        if row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and row['paymentwindow'] == 'False' and row['lastyear'] < '2013':
+        if row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and row['paymentwindow'] == 'False' and row['lastyear'] < '2013' and row['class'] != 'E':
             try:
                 latlon = db[row['parcel']].split()
                 claimed = False
+                lot = False
                 if row['parcel'] in applied:
                     claimed = True
-                values.append({'parcelid': row['parcel'], 'street': row['street'], 'lat': latlon[0], 'lon': latlon[1], 'claimed': claimed})
+                if row['buildingvalue'] == '000000000000.00':
+                    lot = True
+                values.append({'parcelid': row['parcel'], 'street': row['street'], 'lat': latlon[0], 'lon': latlon[1], 'claimed': claimed, 'lot': lot})
             except:
                 #if not, log it in a separate json file for analysis/reporting
                 print row['parcel']

@@ -200,10 +200,18 @@ $("document").ready(function() {
       prefix: 'ion'
     });
 
+    var lotMarker = L.AwesomeMarkers.icon({
+      icon: 'leaf',
+      markerColor: 'blue',
+      prefix: 'ion'
+    });
+
     for (var i = 0; i < points.length; i++) {
       var a = points[i];
       var title = a.street;
       var icon = blueMarker;
+      if (a.lot)
+        icon = lotMarker;
       if (a.claimed)
         icon = redMarker;
       var marker = L.marker(L.latLng(parseFloat(a.lat), parseFloat(a.lon)), { title: title, icon: icon });
