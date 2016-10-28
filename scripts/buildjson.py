@@ -23,7 +23,6 @@ with open('reapitems.csv') as csvfile:
     reader = csv.DictReader(csvfile, ['parcel', 'street', 'eligible', 'paymentplan', 'lastyear', 'paymentwindow', 'class', 'buildingvalue'])
     for row in reader:
         #if the record should be included, include it
-        # if row['parcel'].startswith('R72') == True and 
         if row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and row['paymentwindow'] == 'False' and row['lastyear'] < '2013' and row['class'] != 'E':
             try:
                 latlon = db[row['parcel']].split()
