@@ -1,22 +1,22 @@
 $("document").ready(function() {
   // current marker list
   var markerList = [];
-  
+
   // all the markers
   var allMarkers = [];
-  
+
   // search index for the markers
   var markerSearch = [];
-  
+
   // map context
   var map;
   var markers;
-  
+
   /// Link Helper functions
   function generateTreasurersLink(parcelid){
     return "http://www.mctreas.org/master.cfm?parid=" + parcelid.replace(" ", "%20") + "&taxyr=2016&own1=SMITH";
   };
-  
+
   function generateGISLink(parcelid){
     return "http://www.mcegisohio.org/geobladeweb/default.aspx?config=aud&field='" + parcelid + "'";
   };
@@ -25,13 +25,13 @@ $("document").ready(function() {
   function substringMatcher(strs) {
     return function findMatches(q, cb) {
       var matches, substrRegex;
-  
+
       // an array that will be populated with substring matches
       matches = [];
 
       // regex used to determine if a string contains the substring `q`
       substrRegex = new RegExp(q, 'i');
-  
+
       // iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
       markerList = [];
@@ -43,24 +43,24 @@ $("document").ready(function() {
           matches.push({ value: str });
         }
       });
- 
+
       setMarkers();
       cb(matches);
     };
   };
-  
+
   /* Highlight search box text on click */
   $("#addressInput").click(function () {
     $(this).select();
   });
-  
+
   /* Prevent hitting enter from refreshing the page */
   $("#addressInput").keypress(function (e) {
     if (e.which == 13) {
       e.preventDefault();
     }
   });
-  
+
   $("#addressInput").on('typeahead:selected', function(evt, item) {
     lookupValue(item.value);
   });
@@ -77,16 +77,16 @@ $("document").ready(function() {
       empty: '<div class="empty-message">No Lot Links eligible properties were found. <br /><span class="error-text">If you provided a complete address, then the property is not eligible for Lot Links at this time.</span></div>'
     }
   });
-  
+
   /// Lookup based on typeahead and updating right bar
   function selectedProperty(address,parcelid, claimed) {
     $('#selectedAddress').text(address);
     $('#selectedParcelId').text(parcelid);
-    $('#linkToTreasuresSite').html("<a href=\"" 
-      + generateTreasurersLink(parcelid) 
+    $('#linkToTreasuresSite').html("<a href=\""
+      + generateTreasurersLink(parcelid)
       + "\" target=\"_blank\">View Property on Treasurer's Site</a>");
-    $('#linkToGISSite').html("<a href=\"" 
-      + generateGISLink(parcelid) 
+    $('#linkToGISSite').html("<a href=\""
+      + generateGISLink(parcelid)
       + "\" target=\"_blank\">View Property on GIS Site</a>");
     if (claimed) {
       $('#claimedWarning').html("This property has been claimed. It is not available at this time.");
@@ -97,16 +97,16 @@ $("document").ready(function() {
   }
 
   function updateMarkers(index, value) {
-    if (allMarkers[index] !== undefined && 
+    if (allMarkers[index] !== undefined &&
       (allMarkers[index].parcelid === value || allMarkers[index].address === value))
     {
       markerList.push(allMarkers[index]);
-    } else if (index >= allMarkerLength && 
+    } else if (index >= allMarkerLength &&
         (allMarkers[index-allMarkerLength].parcelid === value || allMarkers[index-allMarkerLength].address === value))
     {
       markerList.push(allMarkers[index-allMarkerLength]);
     }
-  } 
+  }
 
   function clearMarkers() {
     if (markerList.length !== allMarkerLength) {
@@ -123,7 +123,7 @@ $("document").ready(function() {
     markers.clearLayers();
     markers.addLayers(markerList);
   }
- 
+
   function lookupValue(value) {
     var val = $('#addressInput').val().toUpperCase();
     var refreshNeeded = false;
@@ -150,7 +150,7 @@ $("document").ready(function() {
     else if (val.length < 3 && markerList.length !== allMarkerLength) {
       markerList = [];
     }
-  
+
     if (newMarkers.length === 0) {
       refreshNeeded = true;
       markerList = allMarkers;
@@ -158,13 +158,28 @@ $("document").ready(function() {
     else if (newMarkers.length === 1) {
       selectedProperty(newMarkers[0].address, newMarkers[0].parcelid, newMarkers[0].claimed);
     }
-  
+
     if (refreshNeeded) {
       markers.clearLayers();
       markers.addLayers(markerList);
     }
   }
-  
+
+  function showOnlyNewProperties(showNew=false) {
+    markers.clearLayers();
+    if (showNew) {
+      var filteredMarkers = markerList.filter(function(marker) { return marker.new == true; });
+      markers.addLayers(filteredMarkers);
+    } else {
+      markers.addLayers(markerList);
+    }
+  }
+
+  //Filter new properties
+  $("#showOnlyNewProperties").change(function () {
+    $(this).is(":checked") ? showOnlyNewProperties(true) : showOnlyNewProperties(false);
+  });
+
   /// Site initialization
   function createMap() {
     var satTiles = L.tileLayer('http://otile1.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.png', {
@@ -184,7 +199,7 @@ $("document").ready(function() {
     return '<p>' + street + '</p>' +
            '<p>' + parcel + '</p>';
   }
- 
+
   function initMarkers() {
     markerList = [];
 
@@ -218,7 +233,8 @@ $("document").ready(function() {
       marker.address = a.street;
       marker.parcelid = a.parcelid;
       marker.claimed = a.claimed;
-  
+      marker.new = a.new;
+
       marker.on('click', function(e) {
         selectedProperty(e.target.address, e.target.parcelid, e.target.claimed);
       });
@@ -227,70 +243,68 @@ $("document").ready(function() {
     }
     allMarkers = markerList;
     allMarkerLength = allMarkers.length;
-  
+
     for (var i = 0; i < allMarkerLength; i++) {
         markerSearch.push(allMarkers[i].parcelid);
     }
     for (i = 0; i < allMarkerLength; i++) {
         markerSearch.push(allMarkers[i].address);
     }
-  
+
     markers = L.markerClusterGroup({
       chunkedLoading: true,
       chunkInterval: 20,
       chunkDelay: 50
-      
+
     });
     markers.addLayers(markerList);
     map.addLayer(markers);
   }
-  
+
   function initSite() {
     $('#last_update').text(lastupdated);
-  
+
     createMap();
     initMarkers();
-    
+
   }
-  
+
   initSite();
-  
-  //HTML5 input placeholder fix for < ie10 
+
+  //HTML5 input placeholder fix for < ie10
   $('input, textarea').placeholder();
- 
+
   function uiFixes() {
      //JS to fix the Twitter Typeahead styling, as it is unmodifyable in the bower folder
     $('.twitter-typeahead').css('display', '');
     //Fix for the Twitter Typeahead styling of the pre tag causing issues with horizontal scrolling in conentpanel
     $('pre').css("margin-left", "-50%");
   }
-  
+
   uiFixes();
-  
+
   //JS FAQ triggers
-  
+
   function clickedFAQ(element) {
     var clickedFAQ = element.id;
     var expandFAQ = clickedFAQ + "-expand";
     var isExpandedFAQ = $("#"+expandFAQ).css("display");
-    
+
     if (isExpandedFAQ === "block"){
       $("#"+expandFAQ).hide("slow");
       $("#"+expandFAQ+" *").hide("slow");
       $("#"+clickedFAQ+" h4 span.expanded-icon").replaceWith("<span class='expand-icon'>+</span>");
       console.log(clickedFAQ+" h4 span.expand-icon");
     }else{
-      
+
       $("#"+expandFAQ).show();
       $("#"+expandFAQ+" *").show("fast");
       $("#"+clickedFAQ+" h4 span.expand-icon").replaceWith("<span class='expanded-icon'>&#8210;</span>");
     }
-    
+
   }
-  
+
   $("[id^=FAQ-]").click( function() {
     clickedFAQ(this);
   });
 });
-
-
