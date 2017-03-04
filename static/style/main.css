@@ -40,7 +40,7 @@ a {
   height: 100%;
 }
 .intropanel .introcontainer {
-  margin-top: 90px;
+  margin-top: 110px;
   width: 95%;
   margin-left: 2.5%;
   margin-right: 2.5%;
@@ -263,12 +263,13 @@ div.results {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  vertical-align: middle;
+  vertical-align: top;
   align-items: center;
 }
 .navbar .logo-container .logo {
   color: #fefefe;
   margin-left: 2rem;
+  margin-top: 0rem;
   text-decoration: none;
   display: table-cell;
   display: -webkit-box;
@@ -276,7 +277,7 @@ div.results {
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
-  vertical-align: middle;
+  vertical-align: top;
   align-items: center;
 }
 .navbar .logo-container .logo:hover {
@@ -520,7 +521,7 @@ div.results {
     background-color: #fafafa;
   }
   .intropanel .introcontainer {
-    margin-top: 90px;
+    margin-top: 110px;
   }
   .footerpanel {
     bottom: 0;

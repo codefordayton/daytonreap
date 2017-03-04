@@ -161,7 +161,7 @@ $("document").ready(function() {
   }
 
   // NEEDS UPDATE: Broken by search update
-  function showOnlyNewProperties(showNew=false) {
+  function showOnlyNewProperties(showNew) {
     markers.clearLayers();
     if (showNew) {
       var filteredMarkers = markerList.filter(function(marker) { return marker.new == true; });
