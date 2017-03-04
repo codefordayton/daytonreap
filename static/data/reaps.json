@@ -1,4 +1,4 @@
-var lastupdated = new Date("March 04, 2017 11:02:28");
+var lastupdated = new Date("March 04, 2017 17:13:35");
 var points =[
   {
     "parcelid": "R72 16305 0011", 
@@ -8881,7 +8881,7 @@ var points =[
     "street": "21 PHILADELPHIA ST", 
     "lot": false, 
     "lat": "39.764541", 
-    "new": true
+    "new": false
   }, 
   {
     "parcelid": "R72 08201 0033", 
@@ -12040,7 +12040,7 @@ var points =[
     "street": "426 FOUNTAIN AVE", 
     "lot": false, 
     "lat": "39.777622", 
-    "new": true
+    "new": false
   }, 
   {
     "parcelid": "R72 12104 0027", 
@@ -48967,7 +48967,7 @@ var points =[
     "street": "4401 DAYTON LIBERTY RD", 
     "lot": false, 
     "lat": "39.733360", 
-    "new": true
+    "new": false
   }, 
   {
     "parcelid": "R72 07901 0064", 
@@ -69109,7 +69109,7 @@ var points =[
     "street": "5018 PRESCOTT AVE", 
     "lot": false, 
     "lat": "39.786244", 
-    "new": true
+    "new": false
   }, 
   {
     "parcelid": "R72 06310 0074", 
@@ -83734,7 +83734,7 @@ var points =[
     "street": "157 S TERRY ST", 
     "lot": false, 
     "lat": "39.759431", 
-    "new": true
+    "new": false
   }, 
   {
     "parcelid": "R72 00205 0008", 
@@ -85858,7 +85858,7 @@ var points =[
     "street": "343 WALTON AVE", 
     "lot": false, 
     "lat": "39.756192", 
-    "new": true
+    "new": false
   }, 
   {
     "parcelid": "R72 12705 0055", 

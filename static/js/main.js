@@ -5,6 +5,9 @@ $("document").ready(function() {
   // search index for the markers
   var markerSearch = [];
 
+  // flag for only showing new properties
+  var onlyNew = false;
+
   // map context
   var map;
   var markers;
@@ -140,17 +143,20 @@ $("document").ready(function() {
     // Original design calls for putting all the markers back if there's nothing found during the search
     // This feature is removed due to search slugishness
 
-    // Let's find all the found markers 
+    // Let's find all the found markers, filtering for newness if necessary
     var foundMarkers = [];
     for (var i = 0; i < allMarkers.length; i++) {
-      if (allMarkers[i].found) foundMarkers.push(allMarkers[i]);
+      if (allMarkers[i].found &&
+           (!onlyNew || (onlyNew && allMarkers[i].new))) { 
+        foundMarkers.push(allMarkers[i]);
+      }
     }
     // Let's not update the map if we found all markers in the search and they are already on the map
     if (foundMarkers.length === allMarkers.length && markers.getLayers().length === allMarkers.length) return;
 
     // Marker attributes such as .claim and .new can be used here to filter search results.
 
-    // Leaflet says it's more efficient to remove all the markers and then inseart the new ones.
+    // Leaflet says it's more efficient to remove all the markers and then insert the new ones.
     markers.clearLayers();
     markers.addLayers(foundMarkers);
 
@@ -160,15 +166,9 @@ $("document").ready(function() {
     }
   }
 
-  // NEEDS UPDATE: Broken by search update
   function showOnlyNewProperties(showNew) {
-    markers.clearLayers();
-    if (showNew) {
-      var filteredMarkers = markerList.filter(function(marker) { return marker.new == true; });
-      markers.addLayers(filteredMarkers);
-    } else {
-      markers.addLayers(markerList);
-    }
+    onlyNew = showNew;
+    setMarkers();
   }
 
   // NEEDS UPDATE: Broken by search update
@@ -233,7 +233,7 @@ $("document").ready(function() {
       marker.parcelid = a.parcelid;
       marker.claimed = a.claimed;
       marker.new = a.new;
-      marker.found = false; // Helper attribute for the search function.
+      marker.found = true; // Helper attribute for the search function.
 
       marker.on('click', function(e) {
         selectedProperty(e.target.address, e.target.parcelid, e.target.claimed);
