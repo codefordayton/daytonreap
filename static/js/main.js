@@ -1,12 +1,12 @@
 $("document").ready(function() {
-  // current marker list
-  var markerList = [];
-
   // all the markers
   var allMarkers = [];
 
   // search index for the markers
   var markerSearch = [];
+
+  // flag for only showing new properties
+  var onlyNew = false;
 
   // map context
   var map;
@@ -25,7 +25,6 @@ $("document").ready(function() {
   function substringMatcher(strs) {
     return function findMatches(q, cb) {
       var matches, substrRegex;
-
       // an array that will be populated with substring matches
       matches = [];
 
@@ -34,12 +33,21 @@ $("document").ready(function() {
 
       // iterate through the pool of strings and for any string that
       // contains the substring `q`, add it to the `matches` array
-      markerList = [];
+
+      // Practically clearing the previous search results
+      // Does using .map change the performance?
+      for (var i = 0; i < allMarkers.length; i++) {
+        allMarkers[i].found = false;
+      }
+
       $.each(strs, function(i, str) {
         if (substrRegex.test(str)) {
           // the typeahead jQuery plugin expects suggestions to a
           // JavaScript object, refer to typeahead docs for more info
-          updateMarkers(i, str);
+
+          // Update the found attribute on the master marker list
+          // This will later used to update the markers on the map
+          allMarkers[i % allMarkers.length].found = true;
           matches.push({ value: str });
         }
       });
@@ -62,7 +70,22 @@ $("document").ready(function() {
   });
 
   $("#addressInput").on('typeahead:selected', function(evt, item) {
-    lookupValue(item.value);
+    // User selected a text from the search results box
+    // We need to update the map with the markers matching exactly that text
+    // If there's only one result, we will select that property
+    // This is going to be a subset of all the markers on the map, 
+    //    however Leaflet update efficiency should be considered.
+
+    var value = item.value;     
+    // Clearing the previous search results and searching for the selected marker(s)
+    for (var i = 0; i < allMarkers.length; i++) {
+      allMarkers[i].found = false;
+      if (allMarkers[i].parcelid === value || allMarkers[i].address === value) allMarkers[i].found = true;
+    }
+
+    // Let's update the markers on the map to selected markers
+    // This will also select the marker if there's only one result
+    setMarkers();
   });
 
   $("#addressInput").typeahead({
@@ -73,6 +96,7 @@ $("document").ready(function() {
     name: "AllMarkers",
     displayKey: "value",
     source: substringMatcher(markerSearch),
+    limit: 15,
     templates: {
       empty: '<div class="empty-message">No Lot Links eligible properties were found. <br /><span class="error-text">If you provided a complete address, then the property is not eligible for Lot Links at this time.</span></div>'
     }
@@ -96,85 +120,58 @@ $("document").ready(function() {
     $(".introcontainer").css("margin-top", "255px");
   }
 
-  function updateMarkers(index, value) {
-    if (allMarkers[index] !== undefined &&
-      (allMarkers[index].parcelid === value || allMarkers[index].address === value))
-    {
-      markerList.push(allMarkers[index]);
-    } else if (index >= allMarkerLength &&
-        (allMarkers[index-allMarkerLength].parcelid === value || allMarkers[index-allMarkerLength].address === value))
-    {
-      markerList.push(allMarkers[index-allMarkerLength]);
-    }
-  }
-
   function clearMarkers() {
-    if (markerList.length !== allMarkerLength) {
-      markers.clearLayers();
-      markerList = allMarkers;
-      markers.addLayers(markerList);
+    // Let's not update the map if all the markers are already in there
+    if (markers.getLayers().length === allMarkers.length) return;
+
+    // Leaflet says it's more efficient to remove all the markers and then inseart the new ones.
+    markers.clearLayers();
+
+    // Let's put everything back onto the map
+    // We should also set the found attributes to false on the master list
+    var cleanMarkers = [];
+    for (var i = 0; i < allMarkers.length; i++) {
+      allMarkers[i].found = false;
+      // We are already looping over all the markers
+      // It might be more efficient to update cleanMarkers in this loop
+      cleanMarkers.push(allMarkers[i]);
     }
+    markers.addLayers(cleanMarkers);
   }
 
   function setMarkers() {
-    if (markerList.length === 0) {
-      markerList = allMarkers;
+    // Original design calls for putting all the markers back if there's nothing found during the search
+    // This feature is removed due to search slugishness
+
+    // Let's find all the found markers, filtering for newness if necessary
+    var foundMarkers = [];
+    for (var i = 0; i < allMarkers.length; i++) {
+      if (allMarkers[i].found &&
+           (!onlyNew || (onlyNew && allMarkers[i].new))) { 
+        foundMarkers.push(allMarkers[i]);
+      }
     }
+    // Let's not update the map if we found all markers in the search and they are already on the map
+    if (foundMarkers.length === allMarkers.length && markers.getLayers().length === allMarkers.length) return;
+
+    // Marker attributes such as .claim and .new can be used here to filter search results.
+
+    // Leaflet says it's more efficient to remove all the markers and then insert the new ones.
     markers.clearLayers();
-    markers.addLayers(markerList);
-  }
+    markers.addLayers(foundMarkers);
 
-  function lookupValue(value) {
-    var val = $('#addressInput').val().toUpperCase();
-    var refreshNeeded = false;
-    var newMarkers = [];
-
-    if (val.length > 3 && val.substring(0,3) === 'R72') {
-      for (var i = 0; i < allMarkerLength; i++) {
-        if (allMarkers[i].parcelid && allMarkers[i].parcelid.indexOf(val) >= 0) {
-          newMarkers.push(allMarkers[i]);
-        }
-      }
-      refreshNeeded = true;
-      markerList = newMarkers;
-    }
-    else if (val.length > 2 && val !== 'R' && val !== 'R7') {
-      for (var j = 0; j < allMarkerLength; j++) {
-        if (allMarkers[j].address && allMarkers[j].address.indexOf(val) >= 0) {
-          newMarkers.push(allMarkers[j]);
-        }
-      }
-      refreshNeeded = true;
-      markerList = newMarkers;
-    }
-    else if (val.length < 3 && markerList.length !== allMarkerLength) {
-      markerList = [];
-    }
-
-    if (newMarkers.length === 0) {
-      refreshNeeded = true;
-      markerList = allMarkers;
-    }
-    else if (newMarkers.length === 1) {
-      selectedProperty(newMarkers[0].address, newMarkers[0].parcelid, newMarkers[0].claimed);
-    }
-
-    if (refreshNeeded) {
-      markers.clearLayers();
-      markers.addLayers(markerList);
+    // Let's select the marker if there's only one of them is found
+    if (foundMarkers.length === 1 ) {
+      selectedProperty(foundMarkers[0].address, foundMarkers[0].parcelid, foundMarkers[0].claimed);
     }
   }
 
   function showOnlyNewProperties(showNew) {
-    markers.clearLayers();
-    if (showNew) {
-      var filteredMarkers = markerList.filter(function(marker) { return marker.new == true; });
-      markers.addLayers(filteredMarkers);
-    } else {
-      markers.addLayers(markerList);
-    }
+    onlyNew = showNew;
+    setMarkers();
   }
 
+  // NEEDS UPDATE: Broken by search update
   //Filter new properties
   $("#showOnlyNewProperties").change(function () {
     $(this).is(":checked") ? showOnlyNewProperties(true) : showOnlyNewProperties(false);
@@ -201,7 +198,6 @@ $("document").ready(function() {
   }
 
   function initMarkers() {
-    markerList = [];
 
     var redMarker = L.AwesomeMarkers.icon({
       icon: 'close-round',
@@ -221,6 +217,7 @@ $("document").ready(function() {
       prefix: 'ion'
     });
 
+    // points object is loaded from the data file
     for (var i = 0; i < points.length; i++) {
       var a = points[i];
       var title = a.street;
@@ -229,25 +226,30 @@ $("document").ready(function() {
         icon = lotMarker;
       if (a.claimed)
         icon = redMarker;
+
       var marker = L.marker(L.latLng(parseFloat(a.lat), parseFloat(a.lon)), { title: title, icon: icon });
+
       marker.address = a.street;
       marker.parcelid = a.parcelid;
       marker.claimed = a.claimed;
       marker.new = a.new;
+      marker.found = true; // Helper attribute for the search function.
 
       marker.on('click', function(e) {
         selectedProperty(e.target.address, e.target.parcelid, e.target.claimed);
       });
-      marker.bindPopup(popup(title, a.parcelid));
-      markerList.push(marker);
-    }
-    allMarkers = markerList;
-    allMarkerLength = allMarkers.length;
 
-    for (var i = 0; i < allMarkerLength; i++) {
+      marker.bindPopup(popup(title, a.parcelid));
+      allMarkers.push(marker);
+    }
+
+
+    // markerSearch array contains the search terms
+    // Its size should be kept as multiples of allMarkers.length
+    for (var i = 0; i < allMarkers.length; i++) {
         markerSearch.push(allMarkers[i].parcelid);
     }
-    for (i = 0; i < allMarkerLength; i++) {
+    for (var i = 0; i < allMarkers.length; i++) {
         markerSearch.push(allMarkers[i].address);
     }
 
@@ -255,9 +257,9 @@ $("document").ready(function() {
       chunkedLoading: true,
       chunkInterval: 20,
       chunkDelay: 50
-
     });
-    markers.addLayers(markerList);
+
+    markers.addLayers(allMarkers);
     map.addLayer(markers);
   }
 
