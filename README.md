@@ -3,7 +3,7 @@ Dayton REAP
 
 Web application to streamline Dayton's REAP (Real Estate Acquisition Process) Program.
 
-The process is described here: http://www.cityofdayton.org/departments/pcd/Pages/LotLinksProgram.aspx
+The process is described here: http://www.daytonohio.gov/187/Lot-Links
 
 And a video walkthrough is here: https://www.youtube.com/watch?v=cIIOYG-B4NY
 
