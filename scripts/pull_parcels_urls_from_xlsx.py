@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
-from __future__ import division, print_function
 import pandas as pd
 import argparse
 import os.path
-import numpy as np
 
 
 def parse_args():
@@ -24,14 +22,15 @@ def read_data(file):
     '''Read the Excel file'''
     df = pd.read_excel(file)
     df = df.dropna(subset=['Parcel ID', 'Image 1'])
-    df = df.rename(index=str, columns={'Parcel ID': 'parcelid', 'Image 1': 'image1',
+    df = df.rename(index=str, columns={'Parcel ID': 'parcelid',
+                                       'Image 1': 'image1',
                                        'Image 2': 'image2'})
     return df[['parcelid', 'image1', 'image2']]
 
 
 def write_data(df):
     '''Save data to a CSV file'''
-    df.to_csv('parcels_image_urls.csv')
+    df.to_csv('parcels_image_urls.csv', index=False)
 
 
 def load_xlsx_and_output_data():
