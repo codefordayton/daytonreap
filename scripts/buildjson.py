@@ -6,13 +6,14 @@ from datetime import datetime
 
 def is_eligible(row):
     return (row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and
-            row['paymentwindow'] == 'False' and row['lastyear'] < '2014' and
+            row['paymentwindow'] == 'False' and row['lastyear'] < '2015' and
             row['class'] != 'E')
 
 
-def is_new(row, old_rows):
+def is_new(parcel_id, old_rows):
     for old_row in old_rows:
-        if old_row.get('parcelid', None) == row['parcel']:
+        old_id = old_row.get('parcelid', '').replace(' ', '')
+        if old_id == parcel_id:
             return False
     return True
 
@@ -21,12 +22,13 @@ applied = []
 with open('parcels.csv') as csvfile:
     reader = csv.DictReader(csvfile, ['parcel', 'addl', 'address'])
     for row in reader:
-        applied.append(row['parcel'])
+        applied.append(row['parcel'].replace(" ", ""))
         if len(row['addl']) > 0:
-            addl = row['addl'].split(',')
+            addl = row['addl'].replace("*", "").split(',')
+            nospace_parcel = row['parcel'].replace(" ", "")
             for record in addl:
                 record = record.strip()
-                val = row['parcel'][:len(row['parcel']) - len(record)] + record
+                val = nospace_parcel[:len(nospace_parcel) - len(record)] + record
                 applied.append(val)
 
 # open the old row file, if present
@@ -48,21 +50,23 @@ with open('reapitems.csv') as csvfile:
         # if the record should be included, include it
         if is_eligible(row):
             try:
-                latlon = db[row['parcel']].split()
+                # latlon = db[row['parcel']].split()
+                nospace_parcel = row['parcel'].replace(" ", "")
+                latlon = db[nospace_parcel].split()
                 claimed = False
                 lot = False
-                if row['parcel'] in applied:
+                if nospace_parcel in applied:
                     claimed = True
                 if row['buildingvalue'] == '000000000000.00':
                     lot = True
-                new_record = is_new(row, old_records)
+                new_record = is_new(nospace_parcel, old_records)
                 if new_record:
                     count = count + 1
                     print('New record (' + str(count) + '): ' + row['parcel'])
                 values.append({'parcelid': row['parcel'],
                                'street': row['street'],
-                               'lat': latlon[0],
-                               'lon': latlon[1],
+                               'lat': latlon[0].decode("utf-8"),
+                               'lon': latlon[1].decode("utf-8"),
                                'claimed': claimed,
                                'lot': lot,
                                'new': new_record})
