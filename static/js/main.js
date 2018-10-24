@@ -14,11 +14,11 @@ $("document").ready(function() {
 
   /// Link Helper functions
   function generateTreasurersLink(parcelid){
-    return "http://www.mctreas.org/master.cfm?parid=" + parcelid.replace(" ", "%20") + "&taxyr=2016&own1=SMITH";
+    return "http://www.mctreas.org/master.cfm?parid=" + parcelid.replace(" ", "%20") + "&taxyr=2018&own1=SMITH";
   };
 
   function generateGISLink(parcelid){
-    return "http://www.mcegisohio.org/geobladeweb/default.aspx?config=aud&field='" + parcelid + "'";
+    return "http://www.mcegisohio.org/VPWeb/VPWeb.html?config=aud";
   };
 
   /// typeahead helper
