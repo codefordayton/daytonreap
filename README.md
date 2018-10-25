@@ -9,14 +9,13 @@ And a video walkthrough is here: https://www.youtube.com/watch?v=cIIOYG-B4NY
 
 ## Installation
 
-Dayton REAP uses [npm](http://howtonode.org/introduction-to-npm) and [bower](http://bower.io/#install-bower). Follow those links to get the prerequisites installed before starting.
+Dayton REAP uses [npm](http://howtonode.org/introduction-to-npm). Follow those links to get the prerequisites installed before starting.
 
 Once the toolchain is installed, simply run:
 ```
 git clone https://github.com/codefordayton/daytonreap.git
 cd daytonreap
 npm install
-bower install
 npm run start
 ```
 
