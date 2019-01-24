@@ -2,6 +2,7 @@ import dbm
 import csv
 import json
 from datetime import datetime
+import pandas as pd
 
 
 def is_eligible(row):
@@ -18,6 +19,7 @@ def is_new(parcel_id, old_rows):
     return True
 
 
+df_urls = pd.read_csv('parcels_image_urls.csv').fillna('')
 applied = []
 with open('parcels.csv') as csvfile:
     reader = csv.DictReader(csvfile, ['parcel', 'addl', 'address'])
@@ -63,13 +65,26 @@ with open('reapitems.csv') as csvfile:
                 if new_record:
                     count = count + 1
                     print('New record (' + str(count) + '): ' + row['parcel'])
+                matched_row = df_urls[df_urls.parcelid == row['parcel']]
+                if matched_row.shape[0] < 1:
+                    image1 = ''
+                    image2 = ''
+                    print('No images found for', row['parcel'])
+                else:
+                    image1 = matched_row.iloc[0]['image1']
+                    image2 = matched_row.iloc[0]['image2']
+                if matched_row.shape[0] > 1:
+                    print(matched_row.shape[0], 'matching rows found for',
+                          row['parcel'] + '. Pulling data for first matching row only.')
                 values.append({'parcelid': row['parcel'],
                                'street': row['street'],
                                'lat': latlon[0].decode("utf-8"),
                                'lon': latlon[1].decode("utf-8"),
                                'claimed': claimed,
                                'lot': lot,
-                               'new': new_record})
+                               'new': new_record,
+                               'image1': image1,
+                               'image2': image2})
             except Exception as e:
                 # if not, log it in a separate json file for analysis/reporting
                 print(row['parcel'], e)
