@@ -41,6 +41,9 @@ def load_xlsx_and_output_data():
 
     args = parse_args()
     df = read_data(args.filename)
+    # Get rid of WR Land Conservancy urls, since they are no longer valid
+    for name in ['image1', 'image2']:
+        df.loc[df[name].str.contains('gis.wrlandconservancy.org', na=False), name] = ''
     write_data(df)
 
 
