@@ -192,9 +192,18 @@ $("document").ready(function() {
     L.control.layers({"Map":mapTiles,"Satellite":satTiles}).addTo(map);
   }
 
-  function popup(street, parcel) {
-    return '<p>' + street + '</p>' +
-           '<p>' + parcel + '</p>';
+  function popup(street, parcel, image1, image2) {
+    var returnStr = '<p>' + street + '</p>';
+    returnStr += '<p>' + parcel + '</p>';
+    if (image1 != '') {
+        returnStr += '<p><a href="' + image1 + '" target="_blank">';
+        returnStr += '<img src="' + image1 + '" width=300></a></p>';
+    }
+    if (image2 != '') {
+        returnStr += '<p><a href="' + image2 + '" target="_blank">';
+        returnStr += '<img src="' + image2 + '" width=300></a></p>';
+    }
+    return returnStr;
   }
 
   function initMarkers() {
@@ -238,8 +247,7 @@ $("document").ready(function() {
       marker.on('click', function(e) {
         selectedProperty(e.target.address, e.target.parcelid, e.target.claimed);
       });
-
-      marker.bindPopup(popup(title, a.parcelid));
+      marker.bindPopup(popup(title, a.parcelid, a.image1, a.image2));
       allMarkers.push(marker);
     }
 
