@@ -7,7 +7,7 @@ import pandas as pd
 
 def is_eligible(row):
     return (row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and
-            row['paymentwindow'] == 'False' and row['lastyear'] < '2015' and
+            row['paymentwindow'] == 'False' and row['lastyear'] < '2016' and
             row['class'] != 'E')
 
 
@@ -87,7 +87,7 @@ with open('reapitems.csv') as csvfile:
                                'image2': image2})
             except Exception as e:
                 # if not, log it in a separate json file for analysis/reporting
-                print(row['parcel'], e)
+                print("ERROR", row['parcel'], e)
     file.write('var lastupdated = new Date("' +
                datetime.now().strftime("%B %d, %Y %H:%M:%S") + '");\n')
     file.write('var points =')
