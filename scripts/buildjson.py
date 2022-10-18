@@ -7,7 +7,7 @@ import pandas as pd
 
 def is_eligible(row):
     return (row['eligible'] != 'Sold' and row['paymentplan'] == 'False' and
-            row['paymentwindow'] == 'False' and row['lastyear'] < '2016' and
+            row['paymentwindow'] == 'False' and row['lastyear'] < '2018' and
             row['class'] != 'E')
 
 
@@ -20,18 +20,6 @@ def is_new(parcel_id, old_rows):
 
 
 df_urls = pd.read_csv('parcels_image_urls.csv').fillna('')
-applied = []
-with open('parcels.csv') as csvfile:
-    reader = csv.DictReader(csvfile, ['parcel', 'addl', 'address'])
-    for row in reader:
-        applied.append(row['parcel'].replace(" ", ""))
-        if len(row['addl']) > 0:
-            addl = row['addl'].replace("*", "").split(',')
-            nospace_parcel = row['parcel'].replace(" ", "")
-            for record in addl:
-                record = record.strip()
-                val = nospace_parcel[:len(nospace_parcel) - len(record)] + record
-                applied.append(val)
 
 # open the old row file, if present
 json_file = open('oldrows.json')
@@ -57,8 +45,6 @@ with open('reapitems.csv') as csvfile:
                 latlon = db[nospace_parcel].split()
                 claimed = False
                 lot = False
-                if nospace_parcel in applied:
-                    claimed = True
                 if row['buildingvalue'] == '000000000000.00':
                     lot = True
                 new_record = is_new(nospace_parcel, old_records)
@@ -76,11 +62,10 @@ with open('reapitems.csv') as csvfile:
                 if matched_row.shape[0] > 1:
                     print(matched_row.shape[0], 'matching rows found for',
                           row['parcel'] + '. Pulling data for first matching row only.')
-                values.append({'parcelid': row['parcel'],
-                               'street': row['street'],
+                values.append({'pid': row['parcel'],
+                               'st': row['street'],
                                'lat': latlon[0].decode("utf-8"),
                                'lon': latlon[1].decode("utf-8"),
-                               'claimed': claimed,
                                'lot': lot,
                                'new': new_record,
                                'image1': image1,
@@ -88,10 +73,8 @@ with open('reapitems.csv') as csvfile:
             except Exception as e:
                 # if not, log it in a separate json file for analysis/reporting
                 print("ERROR", row['parcel'], e)
-    file.write('var lastupdated = new Date("' +
-               datetime.now().strftime("%B %d, %Y %H:%M:%S") + '");\n')
-    file.write('var points =')
-    file.write(json.dumps(values, indent=2))
-    file.write(';')
+    final_data = { 'lastupdated':datetime.now().strftime("%B %d, %Y %H:%M:%S"),
+                   'points': values }
+    file.write(json.dumps(final_data))
     file.close()
     json_file.close()
